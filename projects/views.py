@@ -4,4 +4,4 @@ from django.shortcuts import render
 # Create your views here.
 def projects_view(request, *args, **kwargs):
     #return HttpResponse("<h1>Hello world</h1>")
-    return render(request, 'projects_list.html', {}) 
+    return render(request, 'projects_list.html', {"user":request.user, "bulletpoints":['one','two', 'three']}) 

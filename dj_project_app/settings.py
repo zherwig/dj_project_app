@@ -59,7 +59,10 @@ ROOT_URLCONF = 'dj_project_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "projects", "templates")],
+        'DIRS': [
+            os.path.join(BASE_DIR, "projects", "templates"),
+            os.path.join(BASE_DIR, "dj_project_app", "templates"),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
