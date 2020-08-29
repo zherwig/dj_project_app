@@ -2,48 +2,7 @@
 
 {% block content %}
 <form method='POST'> {% csrf_token %}
-    <p>
-        <label for="id_title">Title:</label>
-        <input type="text" name="title" maxlength="200" required="" id="id_title">
-    </p>
-    <p>
-        <label for="id_detail">Detail:</label>
-        <textarea name="detail" cols="40" rows="10" id="id_detail"></textarea>
-    </p>
-    <p>
-        <label for="id_closed">Closed:</label>
-        <input type="checkbox" name="closed" id="id_closed">
-    </p>
-    <p>
-        <label for="id_onHold">OnHold:</label>
-        <input type="checkbox" name="onHold" id="id_onHold">
-    </p>
-    <p>
-        <label for="id_priority">Priority:</label>
-        <input type="number" name="priority" id="id_priority">
-    </p>
-    <p>
-        <label for="id_placeInOrder">PlaceInOrder:</label>
-        <input type="number" name="placeInOrder" id="id_placeInOrder">
-    </p>
-    <p>
-        <label for="id_duedate">Duedate:</label>
-        <input type="text" name="duedate" id="id_duedate">
-    </p>
-    <p>
-        <label for="id_owner">Owner:</label>
-        <select name="owner" id="id_owner">
-            <option value="" selected="">---------</option>
-            <option value="1">admin</option>
-        </select>
-    </p>
-    <p>
-        <label for="id_assignee">Assignee:</label>
-        <select name="assignee" id="id_assignee">
-            <option value="" selected="">---------</option>
-            <option value="1">admin</option>
-        </select>
-    </p>
+    {{ form.as_p}}
     <input type="submit" value="Create">
 </form>
 
