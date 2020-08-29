@@ -1,7 +1,20 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from projects.models import Project
+
+# Project.objects.get(id=1)
 
 # Create your views here.
-def projects_view(request, *args, **kwargs):
-    #return HttpResponse("<h1>Hello world</h1>")
-    return render(request, 'projects_list.html', {"user":request.user, "bulletpoints":['one','two', 'three']}) 
+def projects_list_view(request, *args, **kwargs):
+    context = {
+        "projects": Project.objects.all(),
+        "user":request.user,
+    }
+    
+    return render(request, 'projects_list.html', context) 
+
+def project_detail_view(request, *args, **kwargs):
+    context = {
+        "project": Project.objects.get(id=1),
+    }
+    return render(request, 'project_detail.html', context)

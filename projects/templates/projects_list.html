@@ -2,15 +2,26 @@
 
 {% block content %}
 <h1>Hello {{user}} </h1>
-<h1>Template</h1>
+<h3>List of projects</h3>
 
-<ul>
-    {% for point in bulletpoints%}
-        <li>{{ forloop.counter }} {{ point }}</li>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Closed</th>
+      <th scope="col">Due Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for project in projects%}
+        <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{project.title}}</td>
+        <td>{{project.closed}}</td>
+        <td>{{project.duedate}}</td>
+        </tr>
     {% endfor %}
-</ul>
-
-
-
-
+  </tbody>
+</table>
 {% endblock %}
