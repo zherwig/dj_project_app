@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from projects.models import Project
+from projects.forms import ProjectCreationForm
 
 # Project.objects.get(id=1)
 
@@ -18,3 +19,15 @@ def project_detail_view(request, *args, **kwargs):
         "project": Project.objects.get(id=1),
     }
     return render(request, 'project_detail.html', context)
+
+def project_create_view(request):
+    form = ProjectCreationForm(request.POST or None)
+    if form.is_valid():
+        #save form data
+        form.save()
+        #empty out the form
+        form = ProjectCreationForm()
+    context = {
+        "form": form,
+    }
+    return render(request, 'project_create.html', context)

@@ -20,5 +20,6 @@ from projects import views as projects_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('projects/project', projects_views.project_detail_view, name='project_detail_view'),
-    path('projects/', projects_views.projects_list_view, name='projects_list_views')
+    path('projects/create', projects_views.project_create_view, name='project_create_view'),
+    path('projects/', projects_views.projects_list_view, name='projects_list_view')
 ]
