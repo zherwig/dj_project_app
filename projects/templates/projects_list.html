@@ -6,8 +6,11 @@
 
 <ul>
     {% for point in bulletpoints%}
-        <li>{{point}}</li>
+        <li>{{ forloop.counter }} {{ point }}</li>
     {% endfor %}
 </ul>
+
+
+
 
 {% endblock %}
