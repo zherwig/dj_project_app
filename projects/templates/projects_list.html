@@ -11,6 +11,7 @@
       <th scope="col">Project Name</th>
       <th scope="col">Closed</th>
       <th scope="col">Due Date</th>
+      <th scope="col">Butttons</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,7 @@
         <td>{{project.title}}</td>
         <td>{{project.closed}}</td>
         <td>{{project.duedate}}</td>
+        <td><a href='{{ project.get_absolute_url }}'>Edit</a></td>
         </tr>
     {% endfor %}
   </tbody>
