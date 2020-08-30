@@ -22,13 +22,10 @@ def project_detail_view(request, *args, **kwargs):
     return render(request, 'project_detail.html', context)
 
 def project_create_view(request):
-    form = RawProjectCreationForm() 
-    if request.method == 'POST':
-        form = RawProjectCreationForm(request.POST)
-        if form.is_valid():
-            new_project = Project(**form.cleaned_data)
-            new_project.save()
-            form = RawProjectCreationForm()
+    form = ProjectCreationForm(request.POST or None) 
+    if form.is_valid():
+        form.save()
+        form = ProjectCreationForm()
     context = {
         "form" : form
     }

@@ -4,6 +4,12 @@ from django.contrib.auth.models import User
 import datetime
 
 class ProjectCreationForm(forms.ModelForm):
+    title = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            'placeholder' : "The project Title",
+            'class': "form-control",
+            'id': 'title_form_field'
+    }))
     class Meta:
             model = Project
             fields = '__all__'
