@@ -13,6 +13,14 @@ class ProjectCreationForm(forms.ModelForm):
     class Meta:
             model = Project
             fields = '__all__'
+    
+    #Format here is: def clean_<fieldname>(self, *args, **kwargs)
+    def clean_title(self, *args, **kwargs):
+        title = self.cleaned_data.get("title")
+        if "CFE" in title:
+            return title
+        else:
+            raise forms.ValidationError("This is not a valid title")
 
 
 class RawProjectCreationForm(forms.Form):
