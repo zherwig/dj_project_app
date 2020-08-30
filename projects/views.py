@@ -22,7 +22,15 @@ def project_detail_view(request, *args, **kwargs):
     return render(request, 'project_detail.html', context)
 
 def project_create_view(request):
-    form = ProjectCreationForm(request.POST or None) 
+    initial_data = {
+        'title': 'test initial title',
+        'detail': 'Thsi form was created with initial data',
+        'closed': False,
+        'onHold': False,
+        'priority': 1,
+        'placeInOrder': 100
+    }
+    form = ProjectCreationForm(request.POST or None, initial=initial_data) 
     if form.is_valid():
         form.save()
         form = ProjectCreationForm()
