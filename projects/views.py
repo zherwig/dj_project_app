@@ -15,9 +15,9 @@ def projects_list_view(request, *args, **kwargs):
     
     return render(request, 'projects_list.html', context) 
 
-def project_detail_view(request, *args, **kwargs):
+def project_detail_view(request, id):
     context = {
-        "project": Project.objects.get(id=1),
+        "project": Project.objects.get(id=id),
     }
     return render(request, 'project_detail.html', context)
 
