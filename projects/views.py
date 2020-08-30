@@ -28,9 +28,9 @@ def project_update_view(request, id):
     if form.is_valid():
         form.save()
         form = ProjectCreationForm()
-        return redirect("./")
+        return redirect("../")
     context = {
-        "project": obj,
+        "form" : form
     }
     return render(request, 'project_create.html', context)
 
