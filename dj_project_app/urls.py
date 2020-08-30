@@ -19,8 +19,11 @@ from projects import views as projects_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('projects/<int:id>/delete', projects_views.project_delete_view, name='project_delete_view'),
-    path('projects/<int:id>', projects_views.project_detail_view, name='project_detail_view'),
+    path('projects/', projects_views.projects_list_view, name='projects_list_view'),
     path('projects/create', projects_views.project_create_view, name='project_create_view'),
-    path('projects/', projects_views.projects_list_view, name='projects_list_view')
+    path('projects/<int:id>', projects_views.project_detail_view, name='project_detail_view'),
+    path('projects/<int:id>/update', projects_views.project_update_view, name='project_update_view'),
+    path('projects/<int:id>/delete', projects_views.project_delete_view, name='project_delete_view'),
+    
+    
 ]

@@ -22,6 +22,18 @@ def project_detail_view(request, id):
     }
     return render(request, 'project_detail.html', context)
 
+def project_update_view(request, id):
+    obj = get_object_or_404(Project, id=id)
+    form = ProjectCreationForm(request.POST or None, instance=obj)
+    if form.is_valid():
+        form.save()
+        form = ProjectCreationForm()
+        return redirect("./")
+    context = {
+        "project": obj,
+    }
+    return render(request, 'project_create.html', context)
+
 def project_delete_view(request, id):
     obj = get_object_or_404(Project, id=id)
     if request.method == 'POST':
@@ -33,8 +45,7 @@ def project_delete_view(request, id):
     return render(request, 'project_delete.html', context)
 
 def project_create_view(request):
-    obj = Project.objects.get(id=1)
-    form = ProjectCreationForm(request.POST or None, instance=obj) 
+    form = ProjectCreationForm(request.POST or None) 
     if form.is_valid():
         form.save()
         form = ProjectCreationForm()
