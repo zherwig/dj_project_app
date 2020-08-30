@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from projects.models import Project
 from projects.forms import ProjectCreationForm, RawProjectCreationForm
 from django.contrib.auth.models import User
@@ -21,6 +21,16 @@ def project_detail_view(request, id):
         "project": obj,
     }
     return render(request, 'project_detail.html', context)
+
+def project_delete_view(request, id):
+    obj = get_object_or_404(Project, id=id)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect("../")
+    context = {
+        "project": obj,
+    }
+    return render(request, 'project_delete.html', context)
 
 def project_create_view(request):
     obj = Project.objects.get(id=1)
