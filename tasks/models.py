@@ -23,4 +23,4 @@ class Task(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse("tasks:task_detail_view", kwargs={"pk": self.pk})
+        return reverse("tasks:task_detail_view", kwargs={"id": self.id})
