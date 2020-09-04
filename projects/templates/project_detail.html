@@ -28,4 +28,53 @@
 
 <a class="btn btn-primary" href="{{ project.get_absolute_url }}update">Edit</a>
 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
+
+<h2>Open Tasks</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Due</th>
+      <th scope="col">Task Name</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Completed</th>
+      <th scope="col">Butttons</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for open_task in open_tasks %}
+        <tr>
+        <td>{{open_task.duedate}}</td>
+        <td>{{open_task.title}}</td>
+        <td>{{open_task.project}}</td>
+        <td>{{open_task.completed}}</td>
+        <td><a href='{{ open_task.get_absolute_url }}'>Edit</a></td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Completed tasks</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Task Name</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Completed</th>
+      <th scope="col">Butttons</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for completed_task in completed_tasks %}
+        <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{completed_task.title}}</td>
+        <td>{{completed_task.project}}</td>
+        <td>{{completed_task.completed}}</td>
+        <td><a href='{{ completed_task.get_absolute_url }}'>Edit</a></td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}

@@ -4,6 +4,13 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Layout, Submit
 
 class TaskCreationForm(forms.ModelForm):
+    duedate = forms.DateField(
+        widget=forms.TextInput(     
+            attrs={'type': 'date'} 
+        )
+    )         
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()

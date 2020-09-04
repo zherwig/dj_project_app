@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from tasks.models import Task
 from tasks.forms import TaskCreationForm
 from django.contrib.auth.models import User
+import datetime
 
 # Create your views here.
 def tasks_list_view(request, *args, **kwargs):
@@ -25,7 +26,9 @@ def task_update_view(request, id):
     obj = get_object_or_404(Task, id=id)
     form = TaskCreationForm(request.POST or None, instance=obj)
     if form.is_valid():
-        form.save()
+        form_obj = form.save()
+        form_obj.updated_at = datetime.datetime.now()
+        form_obj.save()
         form = TaskCreationForm()
         return redirect("../")
     context = {
