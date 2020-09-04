@@ -13,13 +13,13 @@
     </tr>
   </thead>
   <tbody>
-    {% for instance in object_list %}
+    {% for task in tasks %}
         <tr>
         <th scope="row">{{ forloop.counter }}</th>
-        <td>{{instance.title}}</td>
-        <td>{{instance.project}}</td>
-        <td>{{instance.completed}}</td>
-        <td><a href='{{ instance.get_absolute_url }}'>Edit</a></td>
+        <td>{{task.title}}</td>
+        <td>{{task.project}}</td>
+        <td>{{task.completed}}</td>
+        <td><a href='{{ task.get_absolute_url }}'>Edit</a></td>
         </tr>
     {% endfor %}
   </tbody>

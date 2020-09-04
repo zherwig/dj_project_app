@@ -2,6 +2,34 @@
 
 {% block content %}
 
-<h1> {{ object.title }} </h1>
-<p> {{ detail. }} </p>
+<h1>{{task.title}} </h1>
+<dl class="row">
+    <dt class="col-sm-3">Title</dt>
+    <dd class="col-sm-9">{{task.title}}</dd>
+    <dt class="col-sm-3">Project</dt>
+    <dd class="col-sm-9">{{task.project}}</dd>
+    <dt class="col-sm-3">Task Description</dt>
+    <dd class="col-sm-9">{{task.detail}}</dd>
+    <dt class="col-sm-3">On hold</dt>
+    <dd class="col-sm-9">{{task.onhold}}</dd>
+    <dt class="col-sm-3">Completed</dt>
+    <dd class="col-sm-9">{{task.completed}}</dd>
+    <dt class="col-sm-3">Priority</dt>
+    <dd class="col-sm-9">{{task.priority}}</dd>
+    <dt class="col-sm-3">Place in order</dt>
+    <dd class="col-sm-9">{{task.placeInOrder}}</dd>
+    <dt class="col-sm-3">Due Date</dt>
+    <dd class="col-sm-9">{{task.duedate}}</dd>
+    <dt class="col-sm-3">Owner</dt>
+    <dd class="col-sm-9">{{task.owner}}</dd>
+    <dt class="col-sm-3">Assigned to</dt>
+    <dd class="col-sm-9">{{task.assignee}}</dd>
+    <dt class="col-sm-3">Created at</dt>
+    <dd class="col-sm-9">{{task.created_at}}</dd>
+    <dt class="col-sm-3">Updated at</dt>
+    <dd class="col-sm-9">{{task.updated_at}}</dd>
+</dl>
+
+<a class="btn btn-primary" href="{{ task.get_absolute_url }}update">Edit</a>
+<a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
 {% endblock %}

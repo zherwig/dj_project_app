@@ -1,51 +1,54 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    ListView,
-    UpdateView,
-    DeleteView
-)
-from .models import Task
-from .forms import TaskModelForm
-from django.urls import reverse
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from tasks.models import Task
+from tasks.forms import TaskCreationForm
+from django.contrib.auth.models import User
 
 # Create your views here.
-class TaskCreateView(CreateView):
-    template_name = 'task_create.html'
-    form_class = TaskModelForm #define form to use
-    queryset = Task.objects.all()
-    success_url = "/tasks/"
-
-class TaskListView(ListView):
-    template_name = 'task_list.html'
-    queryset = Task.objects.all()
-
-class TaskDetailView(DetailView):
-    template_name = 'task_detail.html'
-    queryset = Task.objects.all()
-
-    def get_object(self):
-        id_ = self.kwargs.get('id')
-        return get_object_or_404(Task, id=id_)
-
-class TaskUpdateView(UpdateView):
-    template_name = 'task_create.html'
-    form_class = TaskModelForm #define form to use
-    queryset = Task.objects.all()
-    success_url = "/tasks/"
-
-    def get_object(self):
-        id_ = self.kwargs.get('id')
-        return get_object_or_404(Task, id=id_)
-
-class TaskDeleteView(DeleteView):
-    template_name = 'task_delete.html'
-    queryset = Task.objects.all()
-
-    def get_object(self):
-        id_ = self.kwargs.get('id')
-        return get_object_or_404(Task, id=id_)
+def tasks_list_view(request, *args, **kwargs):
+    context = {
+        "tasks": Task.objects.all(),
+        "page_title": "Open tasks",
+        "user":request.user,
+    }
     
-    def get_success_url(self):
-        return reverse('tasks:task_list_view')
+    return render(request, 'tasks_list.html', context) 
+
+def task_detail_view(request, id):
+    obj = get_object_or_404(Task, id=id)
+    context = {
+        "task": obj,
+    }
+    return render(request, 'task_detail.html', context)
+
+def task_update_view(request, id):
+    obj = get_object_or_404(Task, id=id)
+    form = TaskCreationForm(request.POST or None, instance=obj)
+    if form.is_valid():
+        form.save()
+        form = TaskCreationForm()
+        return redirect("../")
+    context = {
+        "form" : form
+    }
+    return render(request, 'task_create.html', context)
+
+def task_delete_view(request, id):
+    obj = get_object_or_404(Task, id=id)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect("../")
+    context = {
+        "task": obj,
+    }
+    return render(request, 'task_delete.html', context)
+
+def task_create_view(request):
+    form = TaskCreationForm(request.POST or None) 
+    if form.is_valid():
+        form.save()
+        form = TaskCreationForm()
+    context = {
+        "form" : form
+    }
+    return render(request, 'task_create.html', context)
