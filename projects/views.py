@@ -9,7 +9,17 @@ from django.contrib.auth.models import User
 # Create your views here.
 def projects_list_view(request, *args, **kwargs):
     context = {
-        "projects": Project.objects.all(),
+        "projects": Project.objects.filter(closed=False),
+        "page_title": "Open projects",
+        "user":request.user,
+    }
+    
+    return render(request, 'projects_list.html', context) 
+
+def closed_projects_list_view(request, *args, **kwargs):
+    context = {
+        "projects": Project.objects.filter(closed=True),
+        "page_title": "Closed projects",
         "user":request.user,
     }
     
