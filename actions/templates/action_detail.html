@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{action.title}} </h1>
+<dl class="row">
+    <dt class="col-sm-3">Title</dt>
+    <dd class="col-sm-9">{{action.title}}</dd>
+    <dt class="col-sm-3">Related Task</dt>
+    <dd class="col-sm-9">{{action.task}}</dd>
+    <dt class="col-sm-3">Action Description</dt>
+    <dd class="col-sm-9">{{action.detail}}</dd>
+    <dt class="col-sm-3">On hold</dt>
+    <dd class="col-sm-9">{{action.onhold}}</dd>
+    <dt class="col-sm-3">Completed</dt>
+    <dd class="col-sm-9">{{action.completed}}</dd>
+    <dt class="col-sm-3">Priority</dt>
+    <dd class="col-sm-9">{{action.priority}}</dd>
+    <dt class="col-sm-3">Due Date</dt>
+    <dd class="col-sm-9">{{action.duedate}}</dd>
+    <dt class="col-sm-3">Owner</dt>
+    <dd class="col-sm-9">{{action.owner}}</dd>
+    <dt class="col-sm-3">Assigned to</dt>
+    <dd class="col-sm-9">{{action.assignee}}</dd>
+    <dt class="col-sm-3">Created at</dt>
+    <dd class="col-sm-9">{{action.created_at}}</dd>
+    <dt class="col-sm-3">Updated at</dt>
+    <dd class="col-sm-9">{{action.updated_at}}</dd>
+</dl>
+
+<a class="btn btn-primary" href="{{ action.get_absolute_url }}update">Edit</a>
+<a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
+{% endblock %}

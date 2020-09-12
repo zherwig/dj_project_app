@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'projects',
     'tasks',
     'dashboards',
+    'actions',
+    'notes',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +137,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_URL = '/users/login/'

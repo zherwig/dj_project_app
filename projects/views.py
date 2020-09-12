@@ -3,12 +3,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from projects.models import Project
 from tasks.models import Task
 from projects.forms import ProjectCreationForm, RawProjectCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import datetime
 
 # Project.objects.get(id=1)
 
 # Create your views here.
+@login_required
 def projects_list_view(request, *args, **kwargs):
     context = {
         "projects": Project.objects.filter(closed=False),

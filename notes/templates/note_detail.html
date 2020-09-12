@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{note.title}} </h1>
+<dl class="row">
+    <dt class="col-sm-3">Title</dt>
+    <dd class="col-sm-9">{{note.note_title}}</dd>
+    <dt class="col-sm-3">Action Description</dt>
+    <dd class="col-sm-9">{{note.note_text}}</dd>
+</dl>
+<h3>Flags</h3>
+<dl class="row">
+    <dt class="col-sm-3">Archived</dt>
+    <dd class="col-sm-9">{{note.archives}}</dd>
+    <dt class="col-sm-3">highlighted</dt>
+    <dd class="col-sm-9">{{note.highlighted}}</dd>
+</dl>
+
+<h3>Relation</h3>
+<dl class="row">
+{% if note.project %}
+    <dt class="col-sm-3">Project</dt>
+    <dd class="col-sm-9">{{note.project}}</dd>
+{% endif %}
+{% if note.task %}
+    <dt class="col-sm-3">Task</dt>
+    <dd class="col-sm-9">{{note.task}}</dd>
+{% endif %}
+{% if note.action %}
+    <dt class="col-sm-3">Action</dt>
+    <dd class="col-sm-9">{{note.action}}</dd>
+{% endif %}
+</dl> 
+
+<h3>Stats</h3>
+<dl class="row">
+    <dt class="col-sm-3">Created at</dt>
+    <dd class="col-sm-9">{{note.created_at}}</dd>
+    <dt class="col-sm-3">Created by</dt>
+    <dd class="col-sm-9">{{note.note_created_by}}</dd>
+    <dt class="col-sm-3">Updated at</dt>
+    <dd class="col-sm-9">{{note.updated_at}}</dd>
+    <dt class="col-sm-3">Updated by</dt>
+    <dd class="col-sm-9">{{note.note_updated_by}}</dd>
+</dl>
+
+<a class="btn btn-primary" href="{{ note.get_absolute_url }}update">Edit</a>
+<a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
+{% endblock %}

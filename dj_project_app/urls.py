@@ -20,5 +20,8 @@ urlpatterns = [
     path('', include('dashboards.urls')),
     path('projects/', include('projects.urls')),
     path('tasks/', include('tasks.urls')),
+    path('actions/', include('actions.urls')),
+    path('notes/', include('notes.urls')),
+    path('users/', include('accounts.urls')),
     path('admin/', admin.site.urls),    
 ]
