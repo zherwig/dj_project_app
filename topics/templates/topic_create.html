@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
-{% crispy ActionCreationForm ActionCreationForm.helper %}
+{% crispy TopicCreationForm TopicCreationForm.helper %}
 
 {% block content %}
     <div class="row justify-content-md-center">
@@ -11,8 +11,8 @@
     </div>
     <div class="row justify-content-md-center">
         <div class="col col-lg-8">
-            <h3>Delete action</h3>
-            <a class="btn btn-danger" href="{{ action.get_absolute_url }}delete">Delete</a>
+            <h3>Delete topic</h3>
+            <a class="btn btn-danger" href="{{ topic.get_absolute_url }}delete">Delete</a>
         </div>
     </div>  
 

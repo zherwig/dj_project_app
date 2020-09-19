@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{topic.title}} </h1>
+<dl class="row">
+    <dt class="col-sm-3">Title</dt>
+    <dd class="col-sm-9">{{topic.title}}</dd>
+    <dt class="col-sm-3">Description</dt>
+    <dd class="col-sm-9">{{topic.detail}}</dd>
+    <dt class="col-sm-3">Completed</dt>
+    <dd class="col-sm-9">{{topic.completed}}</dd>
+    <dt class="col-sm-3">Created at</dt>
+    <dd class="col-sm-9">{{topic.created_at}}</dd>
+    <dt class="col-sm-3">Updated at</dt>
+    <dd class="col-sm-9">{{topic.updated_at}}</dd>
+</dl>
+
+<a class="btn btn-primary" href="{{ topic.get_absolute_url }}update">Edit</a>
+<a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
+{% endblock %}

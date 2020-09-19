@@ -23,5 +23,6 @@ urlpatterns = [
     path('actions/', include('actions.urls')),
     path('notes/', include('notes.urls')),
     path('users/', include('accounts.urls')),
+    path('topics/', include('topics.urls')),
     path('admin/', admin.site.urls),    
 ]

@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from topics.models import Topic
 from django.urls import reverse
 
 # Create your models here.
 class Project(models.Model):
     title = models.CharField(max_length=200)
     detail = models.TextField(blank=True, null=True)
+    topic = models.ForeignKey (Topic, related_name="related_topic", on_delete=models.CASCADE, null=True, blank=True)
     closed = models.BooleanField(default=False)
     onHold = models.BooleanField(default=False)
     priority = models.IntegerField(blank=True, null=True)

@@ -62,11 +62,16 @@ def project_delete_view(request, id):
     }
     return render(request, 'project_delete.html', context)
 
-def project_create_view(request):
+def project_create_view(request, topicid=None):
     form = ProjectCreationForm(request.POST or None) 
+    if topicid:
+        initial_data = {
+            'topic': topicid
+        }
+        form = ProjectCreationForm(initial=initial_data)
     if form.is_valid():
         form.save()
-        form = ProjectCreationForm()
+        form = PorjectCreationForm()
     context = {
         "form" : form
     }
