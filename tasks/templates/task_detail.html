@@ -24,12 +24,66 @@
     <dd class="col-sm-9">{{task.owner}}</dd>
     <dt class="col-sm-3">Assigned to</dt>
     <dd class="col-sm-9">{{task.assignee}}</dd>
+    <dt class="col-sm-3">Completed at</dt>
+    <dd class="col-sm-9">{{task.completed_at}}</dd>
     <dt class="col-sm-3">Created at</dt>
     <dd class="col-sm-9">{{task.created_at}}</dd>
     <dt class="col-sm-3">Updated at</dt>
     <dd class="col-sm-9">{{task.updated_at}}</dd>
 </dl>
 
+<a class="btn btn-success" href="{% url 'actions:action_create_view' projectid=task.project.id taskid=task.id%}">New Action</a>
 <a class="btn btn-primary" href="{{ task.get_absolute_url }}update">Edit</a>
 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
+
+
+<h3>Actions to do</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Due Date</th>
+      <th scope="col">Action Name</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Task Name</th>
+      <th scope="col">Butttons</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for open_action in open_actions %}
+        <tr>
+        <td>{{open_action.duedate}}</td>
+        <td>{{open_action.title}}</td>
+        <td>{{open_action.task.project}}</td>
+        <td>{{open_action.task}}</td>
+        <td><a class="btn btn-primary btn-sm" href='{{ open_action.get_absolute_url }}'>Edit</a></td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>Completed Actions</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Completed at</th>
+      <th scope="col">Action Name</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Task Name</th>
+      <th scope="col">Butttons</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for completed_action in completed_actions %}
+        <tr>
+        <td>{{completed_action.completed_at | default:""}}</td>
+        <td>{{completed_action.title}}</td>
+        <td>{{completed_action.task.project}}</td>
+        <td>{{completed_action.task}}</td>
+        <td><a class="btn btn-primary btn-sm" href='{{ completed_action.get_absolute_url }}'>Edit</a></td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
 {% endblock %}

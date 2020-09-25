@@ -22,6 +22,8 @@
     <dd class="col-sm-9">{{action.owner}}</dd>
     <dt class="col-sm-3">Assigned to</dt>
     <dd class="col-sm-9">{{action.assignee}}</dd>
+    <dt class="col-sm-3">Completed at</dt>
+    <dd class="col-sm-9">{{ action.completed_at | default:""}}</dd>
     <dt class="col-sm-3">Created at</dt>
     <dd class="col-sm-9">{{action.created_at}}</dd>
     <dt class="col-sm-3">Updated at</dt>

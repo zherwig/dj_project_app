@@ -10,6 +10,8 @@
     <dd class="col-sm-9">{{project.detail}}</dd>
     <dt class="col-sm-3">Closed</dt>
     <dd class="col-sm-9">{{project.closed}}</dd>
+    <dt class="col-sm-3">Topic</dt>
+    <dd class="col-sm-9">{{project.topic}}</dd>
     <dt class="col-sm-3">Priority</dt>
     <dd class="col-sm-9">{{project.priority}}</dd>
     <dt class="col-sm-3">Place in order</dt>
@@ -20,12 +22,15 @@
     <dd class="col-sm-9">{{project.owner}}</dd>
     <dt class="col-sm-3">Assigned to</dt>
     <dd class="col-sm-9">{{project.assignee}}</dd>
+    <dt class="col-sm-3">Closed on</dt>
+    <dd class="col-sm-9">{{project.completed_at| default:""}}</dd>
     <dt class="col-sm-3">Created at</dt>
     <dd class="col-sm-9">{{project.created_at}}</dd>
     <dt class="col-sm-3">Updated at</dt>
     <dd class="col-sm-9">{{project.updated_at}}</dd>
 </dl>
 
+<a class="btn btn-success" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
 <a class="btn btn-primary" href="{{ project.get_absolute_url }}update">Edit</a>
 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
 
@@ -47,7 +52,7 @@
         <td>{{open_task.title}}</td>
         <td>{{open_task.project}}</td>
         <td>{{open_task.completed}}</td>
-        <td><a href='{{ open_task.get_absolute_url }}'>Edit</a></td>
+        <td><a class="btn btn-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Edit</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a></td>
         </tr>
     {% endfor %}
   </tbody>
@@ -71,7 +76,7 @@
         <td>{{completed_task.title}}</td>
         <td>{{completed_task.project}}</td>
         <td>{{completed_task.completed}}</td>
-        <td><a href='{{ completed_task.get_absolute_url }}'>Edit</a></td>
+        <td><a class="btn btn-primary btn-sm" href='{{ completed_task.get_absolute_url }}'>Edit</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=completed_task.project.id taskid=completed_task.id%}">New Action</a></td>
         </tr>
     {% endfor %}
   </tbody>

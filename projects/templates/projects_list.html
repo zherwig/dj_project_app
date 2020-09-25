@@ -8,6 +8,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Project Name</th>
+      <th scope="col">Topic</th>
       <th scope="col">Closed</th>
       <th scope="col">Due Date</th>
       <th scope="col">Butttons</th>
@@ -18,9 +19,10 @@
         <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{project.title}}</td>
+        <td>{{project.topic}}</td>
         <td>{{project.closed}}</td>
         <td>{{project.duedate}}</td>
-        <td><a href='{{ project.get_absolute_url }}'>Edit</a></td>
+        <td><a class="btn btn-primary btn-sm" href='{{ project.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a></td>
         </tr>
     {% endfor %}
   </tbody>

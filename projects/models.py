@@ -15,6 +15,7 @@ class Project(models.Model):
     duedate = models.DateField(blank=True, null=True)
     owner = models.ForeignKey (User, related_name="owned_projects", on_delete=models.CASCADE, null=True, blank=True)
     assignee = models.ForeignKey (User, related_name="assigned_projects", on_delete=models.CASCADE, null=True, blank=True)
+    completed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True, blank=True)
 

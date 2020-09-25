@@ -4,16 +4,19 @@
 {% crispy ActionCreationForm ActionCreationForm.helper %}
 
 {% block content %}
+    <h1 class="display-4">Create Action</h1>
     <div class="row justify-content-md-center">
         <div class="col col-lg-8">
             {% crispy form %}
         </div>
     </div>
+    {% if form.instance.id != None %}
     <div class="row justify-content-md-center">
         <div class="col col-lg-8">
             <h3>Delete action</h3>
-            <a class="btn btn-danger" href="{{ action.get_absolute_url }}delete">Delete</a>
+            <a class="btn btn-danger" href="{{ form.instance.get_absolute_url }}delete">Delete</a>
         </div>
     </div>  
+    {% endif %}
 
 {% endblock %}

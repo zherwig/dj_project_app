@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from topics.models import Topic
-from tasks.models import Task
+from projects.models import Project
 from topics.forms import TopicCreationForm
 from django.contrib.auth.models import User
 import datetime
@@ -20,6 +20,8 @@ def topic_detail_view(request, id):
     obj = get_object_or_404(Topic, id=id)
     context = {
         "topic": obj,
+        "completed_projects": Project.objects.filter(topic_id=obj.id).filter(closed=True),
+        "open_projects": Project.objects.filter(topic_id=obj.id).filter(closed=False).order_by('duedate'),
     }
     return render(request, 'topic_detail.html', context)
 

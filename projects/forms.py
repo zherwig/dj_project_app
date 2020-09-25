@@ -7,6 +7,11 @@ from django.contrib.auth.models import User
 import datetime
 
 class ProjectCreationForm(forms.ModelForm):
+    duedate = forms.DateField(
+        widget=forms.TextInput(     
+            attrs={'type': 'date'} 
+        )
+    )     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()

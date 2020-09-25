@@ -15,6 +15,7 @@ class Action(models.Model):
     completed = models.BooleanField(default=False)
     onHold = models.BooleanField(default=False)
     priority = models.IntegerField(blank=True, null=True)
+    completed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True, blank=True)
 

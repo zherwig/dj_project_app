@@ -6,8 +6,9 @@
   <thead>
     <tr>
       <th scope="col">Due Date</th>
-      <th scope="col">Task Name</th>
       <th scope="col">Project Name</th>
+      <th scope="col">Task Name</th>
+      <th scope="col">Action Name</th>
       <th scope="col">Completed</th>
       <th scope="col">Butttons</th>
     </tr>
@@ -19,7 +20,7 @@
         <td>{{task.title}}</td>
         <td>{{task.task}}</td>
         <td>{{task.completed}}</td>
-        <td><a href='{{ task.get_absolute_url }}'>Edit</a></td>
+        <td><a href='{{ task.get_absolute_url }}'>Details</a></td>
         </tr>
     {% endfor %}
   </tbody>

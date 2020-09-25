@@ -27,7 +27,12 @@ def action_update_view(request, id):
     obj = get_object_or_404(Action, id=id)
     form = ActionCreationForm(request.POST or None, instance=obj)
     if form.is_valid():
+        previous_object = Action.objects.get(id=form.instance.id)
         form_obj = form.save()
+        if previous_object.completed == False and form.instance.completed == True:
+            form_obj.completed_at = datetime.datetime.now()
+        elif previous_object.completed == True and form.instance.completed == False:
+            form_obj.completed_at = None
         form_obj.updated_at = datetime.datetime.now()
         form_obj.save()
         form = ActionCreationForm()
@@ -41,21 +46,26 @@ def action_delete_view(request, id):
     obj = get_object_or_404(Action, id=id)
     if request.method == 'POST':
         obj.delete()
-        return redirect("../")
+        return redirect("../../")
     context = {
         "action": obj,
     }
     return render(request, 'action_delete.html', context)
 
 def action_create_view(request, taskid=None, projectid=None):
-    form = ActionCreationForm(request.POST or None)
-    if taskid and projectid:
+    if request.POST:
+        form = ActionCreationForm(request.POST)
+    else:
         initial_data = {
-            'task': taskid
+            'owner': request.user,
+            'duedate': datetime.datetime.now().date(),
+            'assignee': request.user,
         }
+        if taskid and projectid:
+            initial_data['task'] = taskid 
         form = ActionCreationForm(initial=initial_data)
-    if projectid and not taskid:
-        form.fields['task'].queryset = Task.objects.filter(project_id=projectid)
+        if projectid:
+            form.fields['task'].queryset = Task.objects.filter(project_id=projectid)
     if form.is_valid():
         form.save()
         form = ActionCreationForm()
