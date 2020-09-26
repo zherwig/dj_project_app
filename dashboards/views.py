@@ -8,7 +8,7 @@ from dashboards import applogic as dashboard_applogic
 # Create your views here.
 @login_required
 def dashboard_list_view(request, *args, **kwargs):
-    dashboard_applogic.get_projects_with_tasks_and_actions()
+    dashboard_applogic.get_topics_with_projects_and_open_tasks()
     context = {
         "projects": Project.objects.all(),
         "user":request.user,

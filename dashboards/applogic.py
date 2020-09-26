@@ -1,11 +1,39 @@
+from topics.models import Topic
 from projects.models import Project
 from tasks.models import Task
 from actions.models import Action
+import datetime
 
-def get_projects_with_tasks_and_actions():
-    all_projects = Project.objects.all()
-    all_tasks = Task.objects.all()
-    all_actions = Action.objects.all()
-    print(all_projects[0])
-    print(all_tasks[1].project.id)
-    print(all_actions[0].task.id)
+def get_topics_with_projects_and_open_tasks():
+    #Getting all topics and related projects
+    all_topics = Topic.objects.all()
+    topic_list = [
+        {'topic': topic, 
+        'projects': Project.objects
+                            .filter(topic = topic.id)
+                            .order_by('duedate')
+        } 
+        for topic in all_topics]
+
+    #determining latest due date for use in GUi and sorting
+    for element in topic_list:
+        try:
+            element['top_due_date'] = element['projects'][0].duedate
+        except IndexError:
+            element['top_due_date'] = datetime.date.today()
+        #adding related tasks 
+        for element_project in element['projects']:
+            element_project.tasks = Task.objects.filter(project = element_project.id, completed = False).order_by('duedate')
+    
+    topic_list.sort(key=lambda x: int(x['top_due_date'].strftime('%Y%m%d')))
+
+    
+
+    for topic in topic_list:
+        print(f'***{topic["topic"].title}***')
+        print(f'***{topic["top_due_date"]}***')
+        for single_project in topic["projects"]:
+            print(single_project.duedate)
+            for task in single_project.tasks:
+                print(f'{task.title} - {task.duedate}')
+    print(topic_list)
