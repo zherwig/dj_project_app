@@ -52,7 +52,7 @@
         <td>{{open_task.title}}</td>
         <td>{{open_task.project}}</td>
         <td>{{open_task.completed}}</td>
-        <td><a class="btn btn-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Edit</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a></td>
+        <td><a class="btn btn-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a></td>
         </tr>
     {% endfor %}
   </tbody>
@@ -76,7 +76,7 @@
         <td>{{completed_task.title}}</td>
         <td>{{completed_task.project}}</td>
         <td>{{completed_task.completed}}</td>
-        <td><a class="btn btn-primary btn-sm" href='{{ completed_task.get_absolute_url }}'>Edit</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=completed_task.project.id taskid=completed_task.id%}">New Action</a></td>
+        <td><a class="btn btn-primary btn-sm" href='{{ completed_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=completed_task.project.id taskid=completed_task.id%}">New Action</a></td>
         </tr>
     {% endfor %}
   </tbody>

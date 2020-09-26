@@ -10,7 +10,7 @@ from dashboards import applogic as dashboard_applogic
 def dashboard_list_view(request, *args, **kwargs):
     dashboard_applogic.get_topics_with_projects_and_open_tasks()
     context = {
-        "projects": Project.objects.all(),
+        "topics": dashboard_applogic.get_topics_with_projects_and_open_tasks(),
         "user":request.user,
     }
     

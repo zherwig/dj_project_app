@@ -1,29 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Hello {{user}} </h1>
-<h3>List of projects</h3>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Project Name</th>
-      <th scope="col">Closed</th>
-      <th scope="col">Due Date</th>
-      <th scope="col">Butttons</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for project in projects%}
-        <tr>
+<div class="jumbotron">
+  <h1 class="display-4">Topics</h1>
+</div>
+<div class="container">
+{% for topic in topics %}
+  {% comment %} <div class="row"> {% endcomment %}
+    <h2>{{topic.topic.title}}</h2>
+    <p class="lead">Next project due: {{ topic.top_due_date }}</p>
+      <div class="row dashboard_row">
+      {% for project in topic.projects%}
+       <div class="col-md-4">
+          <div class="card dashboardcard">
+            <div class="card-body">
+                <h5 class="card-title">{{project.title}}</h5>
+                <p>Due: {{project.duedate}}</p>
+                <a class="btn btn-sm btn-primary" href="{{ project.get_absolute_url }}">Details</a>
+                <a class="btn btn-sm btn-outline-success" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
+                <hr />
+                <div class="dashboard_card_tasks-block">
+                  {% for task in project.tasks%}
+                    <div class="dashboard_card_tasks-card">
+                      <div class="dashboard_card_task_title">
+                        <p>{{task.title}}</p>
+                      </div>
+                      <div class="dashboard_card_task_duedate">
+                        <p>{{task.duedate}}</p>
+                      </div>
+                      <div class="dashboard_card_task_button">
+                        <a class="btn btn-outline-primary btn-sm" href='{{ task.get_absolute_url }}'>Details</a>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+        {% comment %} <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{project.title}}</td>
         <td>{{project.closed}}</td>
         <td>{{project.duedate}}</td>
         <td><a href='{{ project.get_absolute_url }}'>Edit</a></td>
-        </tr>
-    {% endfor %}
-  </tbody>
-</table>
+        </tr> {% endcomment %}
+  {% comment %} </div> {% endcomment %}
+{% endfor %}
+</div>
 {% endblock %}

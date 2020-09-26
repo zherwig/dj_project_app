@@ -12,7 +12,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
-from config.config_local import dbconfig
+
+import socket
+SERVER_HOST = socket.gethostname().lower()
+if SERVER_HOST.endswith('.webfaction.com'):
+    from config.config_prod import dbconfig
+else:
+    from config.config_local import dbconfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -27,7 +33,7 @@ SECRET_KEY = 'dxx-xkjc=&nf)=(exs0-0y%+y#%h&+jzl4fh4anu^fxsg&p%^rkbj('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','pm.hstalks.com']
 
 
 # Application definition
@@ -136,6 +142,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = dbconfig['media_root']
+STATIC_ROOT = dbconfig['static_root']
+
+STATICFILES_DIRS = (
+    # location of your application, should not be public web accessible 
+    os.path.join(BASE_DIR,'junk','static-dev'),
+)
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

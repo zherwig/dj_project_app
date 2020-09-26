@@ -27,13 +27,13 @@ def get_topics_with_projects_and_open_tasks():
     
     topic_list.sort(key=lambda x: int(x['top_due_date'].strftime('%Y%m%d')))
 
-    
+   
 
-    for topic in topic_list:
-        print(f'***{topic["topic"].title}***')
-        print(f'***{topic["top_due_date"]}***')
-        for single_project in topic["projects"]:
-            print(single_project.duedate)
-            for task in single_project.tasks:
-                print(f'{task.title} - {task.duedate}')
-    print(topic_list)
+    # for topic in topic_list:
+    #     print(f'***{topic["topic"].title}***')
+    #     print(f'***{topic["top_due_date"]}***')
+    #     for single_project in topic["projects"]:
+    #         print(single_project.duedate)
+    #         for task in single_project.tasks:
+    #             print(f'{task.title} - {task.duedate}')
+    return topic_list
