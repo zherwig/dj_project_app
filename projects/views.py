@@ -2,7 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from projects.models import Project
 from tasks.models import Task
-from projects.forms import ProjectCreationForm, RawProjectCreationForm
+from projects.forms import ProjectCreationForm
+from notes.forms import AddNoteForm
+from notes.applogic import getRelatedNotes
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from projects import applogic as project_applogic
@@ -33,7 +35,20 @@ def closed_projects_list_view(request, *args, **kwargs):
 
 def project_detail_view(request, id):
     obj = get_object_or_404(Project, id=id)
+    notes = getRelatedNotes("project", id)
+    form = AddNoteForm(request.POST or None)
+    if form.is_valid():
+        form_obj = form.save()
+        form_obj.project = obj
+        form_obj.note_created_by = request.user
+        form_obj.note_updated_by = request.user
+        form_obj.updated_at = datetime.datetime.now()
+        form_obj.created_at = datetime.datetime.now()
+        form_obj.save()
+        form = AddNoteForm()
     context = {
+        "notes": notes,
+        "form": form,
         "project": obj,
         "completed_tasks": Task.objects.filter(project_id=obj.id).filter(completed=True),
         "open_tasks": project_applogic.get_tasks_and_open_and_closed_actions(obj.id),

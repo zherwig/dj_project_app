@@ -41,7 +41,7 @@ def note_delete_view(request, id):
     obj = get_object_or_404(Note, id=id)
     if request.method == 'POST':
         obj.delete()
-        return redirect("../")
+        return redirect("../../../")
     context = {
         "note": obj,
     }

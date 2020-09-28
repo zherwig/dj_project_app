@@ -1,110 +1,131 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+{% crispy AddNoteForm AddNoteForm.helper %}
+
 {% block content %}
 
 <h1>{{project.title}} </h1>
-<dl class="row">
-    <dt class="col-sm-3">Title</dt>
-    <dd class="col-sm-9">{{project.title}}</dd>
-    <dt class="col-sm-3">Project Description</dt>
-    <dd class="col-sm-9">{{project.detail}}</dd>
-    <dt class="col-sm-3">Closed</dt>
-    <dd class="col-sm-9">{{project.closed}}</dd>
-    <dt class="col-sm-3">Topic</dt>
-    <dd class="col-sm-9">{{project.topic}}</dd>
-    <dt class="col-sm-3">Priority</dt>
-    <dd class="col-sm-9">{{project.priority}}</dd>
-    <dt class="col-sm-3">Place in order</dt>
-    <dd class="col-sm-9">{{project.placeInOrder}}</dd>
-    <dt class="col-sm-3">Due Date</dt>
-    <dd class="col-sm-9">{{project.duedate}}</dd>
-    <dt class="col-sm-3">Owner</dt>
-    <dd class="col-sm-9">{{project.owner}}</dd>
-    <dt class="col-sm-3">Assigned to</dt>
-    <dd class="col-sm-9">{{project.assignee}}</dd>
-    <dt class="col-sm-3">Closed on</dt>
-    <dd class="col-sm-9">{{project.completed_at| default:""}}</dd>
-    <dt class="col-sm-3">Created at</dt>
-    <dd class="col-sm-9">{{project.created_at}}</dd>
-    <dt class="col-sm-3">Updated at</dt>
-    <dd class="col-sm-9">{{project.updated_at}}</dd>
-</dl>
+<div class="row">
+  <div class="col-md-8">
+    <dl class="row">
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">{{project.title}}</dd>
+        <dt class="col-sm-3">Project Description</dt>
+        <dd class="col-sm-9">{{project.detail}}</dd>
+        <dt class="col-sm-3">Closed</dt>
+        <dd class="col-sm-9">{{project.closed}}</dd>
+        <dt class="col-sm-3">Topic</dt>
+        <dd class="col-sm-9">{{project.topic}}</dd>
+        <dt class="col-sm-3">Priority</dt>
+        <dd class="col-sm-9">{{project.priority}}</dd>
+        <dt class="col-sm-3">Place in order</dt>
+        <dd class="col-sm-9">{{project.placeInOrder}}</dd>
+        <dt class="col-sm-3">Due Date</dt>
+        <dd class="col-sm-9">{{project.duedate}}</dd>
+        <dt class="col-sm-3">Owner</dt>
+        <dd class="col-sm-9">{{project.owner}}</dd>
+        <dt class="col-sm-3">Assigned to</dt>
+        <dd class="col-sm-9">{{project.assignee}}</dd>
+        <dt class="col-sm-3">Closed on</dt>
+        <dd class="col-sm-9">{{project.completed_at| default:""}}</dd>
+        <dt class="col-sm-3">Created at</dt>
+        <dd class="col-sm-9">{{project.created_at}}</dd>
+        <dt class="col-sm-3">Updated at</dt>
+        <dd class="col-sm-9">{{project.updated_at}}</dd>
+    </dl>
 
-<a class="btn btn-success" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
-<a class="btn btn-primary" href="{{ project.get_absolute_url }}update">Edit</a>
-<a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
+    <a class="btn btn-success" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
+    <a class="btn btn-primary" href="{{ project.get_absolute_url }}update">Edit</a>
+    <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
 
-<h2>Open Tasks</h2>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Due</th>
-      <th scope="col">Task Name</th>
-      <th scope="col">Project Name</th>
-      <th scope="col">Completed</th>
-      <th scope="col">Butttons</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for open_task in open_tasks %}
+    <h2>Open Tasks</h2>
+    <table class="table table-striped">
+      <thead>
         <tr>
-        <td>{{open_task.duedate}}</td>
-        <td>{{open_task.title}}</td>
-        <td>{{open_task.project}}</td>
-        <td>{{open_task.completed}}</td>
-        <td><a class="btn btn-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a></td>
+          <th scope="col">Due</th>
+          <th scope="col">Task Name</th>
+          <th scope="col">Project Name</th>
+          <th scope="col">Completed</th>
+          <th scope="col">Butttons</th>
         </tr>
+      </thead>
+      <tbody>
+        {% for open_task in open_tasks %}
+            <tr>
+            <td>{{open_task.duedate}}</td>
+            <td>{{open_task.title}}</td>
+            <td>{{open_task.project}}</td>
+            <td>{{open_task.completed}}</td>
+            <td><a class="btn btn-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
+                <table class="project_action_table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Due</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Assigned to</th>
+                        <th scope="col">Butttons</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for open_task_action in open_task.openactions %}
+                        <tr>
+                          <td>{{open_task_action.duedate}}</td>
+                          <td>{{open_task_action.title}}</td>
+                          <td>{{open_task_action.assignee}}</td>
+                          <td><a class="btn btn-primary btn-sm" href='{{ open_task_action.get_absolute_url }}'>Details</a></td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+              </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h2>Completed tasks</h2>
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td></td>
-          <td colspan="4">
-            <table class="project_action_table">
-                <thead>
-                  <tr>
-                    <th scope="col">Due</th>
-                    <th scope="col">Action</th>
-                    <th scope="col">Assigned to</th>
-                    <th scope="col">Butttons</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for open_task_action in open_task.openactions %}
-                    <tr>
-                      <td>{{open_task_action.duedate}}</td>
-                      <td>{{open_task_action.title}}</td>
-                      <td>{{open_task_action.assignee}}</td>
-                      <td><a class="btn btn-primary btn-sm" href='{{ open_task_action.get_absolute_url }}'>Details</a></td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-            </table>
-          </td>
+          <th scope="col">#</th>
+          <th scope="col">Task Name</th>
+          <th scope="col">Project Name</th>
+          <th scope="col">Completed</th>
+          <th scope="col">Butttons</th>
         </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-<h2>Completed tasks</h2>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Task Name</th>
-      <th scope="col">Project Name</th>
-      <th scope="col">Completed</th>
-      <th scope="col">Butttons</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for completed_task in completed_tasks %}
-        <tr>
-        <th scope="row">{{ forloop.counter }}</th>
-        <td>{{completed_task.title}}</td>
-        <td>{{completed_task.project}}</td>
-        <td>{{completed_task.completed}}</td>
-        <td><a class="btn btn-primary btn-sm" href='{{ completed_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=completed_task.project.id taskid=completed_task.id%}">New Action</a></td>
-        </tr>
-    {% endfor %}
-  </tbody>
-</table>
+      </thead>
+      <tbody>
+        {% for completed_task in completed_tasks %}
+            <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{completed_task.title}}</td>
+            <td>{{completed_task.project}}</td>
+            <td>{{completed_task.completed}}</td>
+            <td><a class="btn btn-primary btn-sm" href='{{ completed_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=completed_task.project.id taskid=completed_task.id%}">New Action</a></td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4">
+    {% crispy form %}
+    <div class=notes_log>
+      <h5>Notes</h5>
+        {% for note in notes %}
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title">{{note.note_title}}</h6>
+              <p class="card-text">{{note.note_text}}</p>
+              <a href="{{ note.get_absolute_url }}update" class="btn btn-outline-secondary btn-sm">Edit</a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
 
 {% endblock %}
