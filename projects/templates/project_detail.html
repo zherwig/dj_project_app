@@ -54,6 +54,31 @@
         <td>{{open_task.completed}}</td>
         <td><a class="btn btn-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a></td>
         </tr>
+        <tr>
+          <td></td>
+          <td colspan="4">
+            <table class="project_action_table">
+                <thead>
+                  <tr>
+                    <th scope="col">Due</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Assigned to</th>
+                    <th scope="col">Butttons</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for open_task_action in open_task.openactions %}
+                    <tr>
+                      <td>{{open_task_action.duedate}}</td>
+                      <td>{{open_task_action.title}}</td>
+                      <td>{{open_task_action.assignee}}</td>
+                      <td><a class="btn btn-primary btn-sm" href='{{ open_task_action.get_absolute_url }}'>Details</a></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+          </td>
+        </tr>
     {% endfor %}
   </tbody>
 </table>

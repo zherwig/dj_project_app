@@ -35,7 +35,7 @@ body {
     width: 66.6666%
 }
 
-dashboard_card_task_button{
+.dashboard_card_task_button{
     width: 33.3333%
 }
 
@@ -44,4 +44,18 @@ dashboard_card_task_button{
     .dashboardcard {
         width: 18rem;
     }
+}
+
+
+.project_action_table{
+    width: 100%;
+    background-color: #eeeeee;
+}
+
+.project_action_table th {
+    background-color: #eeeeee;
+}
+
+.project_action_table td {
+    background-color: #eeeeee;
 }

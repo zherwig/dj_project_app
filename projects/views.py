@@ -5,7 +5,9 @@ from tasks.models import Task
 from projects.forms import ProjectCreationForm, RawProjectCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from projects import applogic as project_applogic
 import datetime
+
 
 # Project.objects.get(id=1)
 
@@ -34,7 +36,7 @@ def project_detail_view(request, id):
     context = {
         "project": obj,
         "completed_tasks": Task.objects.filter(project_id=obj.id).filter(completed=True),
-        "open_tasks": Task.objects.filter(project_id=obj.id).filter(completed=False).order_by('duedate'),
+        "open_tasks": project_applogic.get_tasks_and_open_and_closed_actions(obj.id),
     }
     return render(request, 'project_detail.html', context)
 
