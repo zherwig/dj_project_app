@@ -4,9 +4,11 @@ from actions.models import Action
 from tasks.models import Task
 from actions.forms import ActionCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 import datetime
 
 # Create your views here.
+@login_required
 def actions_list_view(request, *args, **kwargs):
     context = {
         "actions": Action.objects.all(),
@@ -16,6 +18,7 @@ def actions_list_view(request, *args, **kwargs):
     
     return render(request, 'actions_list.html', context) 
 
+@login_required
 def action_detail_view(request, id):
     obj = get_object_or_404(Action, id=id)
     context = {
@@ -23,6 +26,7 @@ def action_detail_view(request, id):
     }
     return render(request, 'action_detail.html', context)
 
+@login_required
 def action_update_view(request, id):
     obj = get_object_or_404(Action, id=id)
     form = ActionCreationForm(request.POST or None, instance=obj)
@@ -42,6 +46,7 @@ def action_update_view(request, id):
     }
     return render(request, 'action_create.html', context)
 
+@login_required
 def action_delete_view(request, id):
     obj = get_object_or_404(Action, id=id)
     if request.method == 'POST':
@@ -52,6 +57,7 @@ def action_delete_view(request, id):
     }
     return render(request, 'action_delete.html', context)
 
+@login_required
 def action_create_view(request, taskid=None, projectid=None):
     if request.POST:
         form = ActionCreationForm(request.POST)

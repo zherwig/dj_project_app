@@ -2,6 +2,13 @@ body {
     background-color: #eeeeee;
 }
 
+@media (min-width: 1250px){
+    .container {
+        max-width: 1720px;
+    }
+}
+
+
 .dashboard_row {
     margin-bottom: 1rem;
   }
@@ -58,4 +65,9 @@ body {
 
 .project_action_table td {
     background-color: #eeeeee;
+}
+
+.note-card{
+    width: 25rem;
+    margin: auto;
 }

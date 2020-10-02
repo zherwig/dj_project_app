@@ -1,0 +1,73 @@
+body {
+    background-color: #eeeeee;
+}
+
+@media (min-width: 1250px){
+    .container {
+        max-width: 1720px;
+    }
+}
+
+
+.dashboard_row {
+    margin-bottom: 1rem;
+  }
+
+.dashboardcard {
+    width: 14rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard_card_tasks-block{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dashboard_card_tasks-card{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dashboard_card_tasks-card p{
+    display: inline;
+}
+
+.dashboard_card_task_title{
+    width: 100%;
+    margin-top: 10px;
+}
+
+.dashboard_card_task_duedate{
+    width: 66.6666%
+}
+
+.dashboard_card_task_button{
+    width: 33.3333%
+}
+
+
+@media (min-width: 992px){
+    .dashboardcard {
+        width: 18rem;
+    }
+}
+
+
+.project_action_table{
+    width: 100%;
+    background-color: #eeeeee;
+}
+
+.project_action_table th {
+    background-color: #eeeeee;
+}
+
+.project_action_table td {
+    background-color: #eeeeee;
+}
+
+.note-card{
+    width: 25rem;
+    margin: auto;
+}

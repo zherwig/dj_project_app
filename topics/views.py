@@ -4,9 +4,11 @@ from topics.models import Topic
 from projects.models import Project
 from topics.forms import TopicCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 import datetime
 
 # Create your views here.
+@login_required
 def topics_list_view(request, *args, **kwargs):
     context = {
         "topics": Topic.objects.all(),
@@ -16,6 +18,7 @@ def topics_list_view(request, *args, **kwargs):
     
     return render(request, 'topics_list.html', context) 
 
+@login_required
 def topic_detail_view(request, id):
     obj = get_object_or_404(Topic, id=id)
     context = {
@@ -25,6 +28,7 @@ def topic_detail_view(request, id):
     }
     return render(request, 'topic_detail.html', context)
 
+@login_required
 def topic_update_view(request, id):
     obj = get_object_or_404(Topic, id=id)
     form = TopicCreationForm(request.POST or None, instance=obj)
@@ -39,6 +43,7 @@ def topic_update_view(request, id):
     }
     return render(request, 'topic_create.html', context)
 
+@login_required
 def topic_delete_view(request, id):
     obj = get_object_or_404(Topic, id=id)
     if request.method == 'POST':
@@ -49,6 +54,7 @@ def topic_delete_view(request, id):
     }
     return render(request, 'topic_delete.html', context)
 
+@login_required
 def topic_create_view(request):
     form = TopicCreationForm(request.POST or None)
     if form.is_valid():

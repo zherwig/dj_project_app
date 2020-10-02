@@ -24,6 +24,7 @@ def projects_list_view(request, *args, **kwargs):
     
     return render(request, 'projects_list.html', context) 
 
+@login_required
 def closed_projects_list_view(request, *args, **kwargs):
     context = {
         "projects": Project.objects.filter(closed=True),
@@ -33,6 +34,7 @@ def closed_projects_list_view(request, *args, **kwargs):
     
     return render(request, 'projects_list.html', context) 
 
+@login_required
 def project_detail_view(request, id):
     obj = get_object_or_404(Project, id=id)
     notes = getRelatedNotes("project", id)
@@ -55,6 +57,7 @@ def project_detail_view(request, id):
     }
     return render(request, 'project_detail.html', context)
 
+@login_required
 def project_update_view(request, id):
     obj = get_object_or_404(Project, id=id)
     form = ProjectCreationForm(request.POST or None, instance=obj)
@@ -74,6 +77,7 @@ def project_update_view(request, id):
     }
     return render(request, 'project_create.html', context)
 
+@login_required
 def project_delete_view(request, id):
     obj = get_object_or_404(Project, id=id)
     if request.method == 'POST':
@@ -84,6 +88,7 @@ def project_delete_view(request, id):
     }
     return render(request, 'project_delete.html', context)
 
+@login_required
 def project_create_view(request, topicid=None):
     if request.POST:
         form = ProjectCreationForm(request.POST)

@@ -4,9 +4,11 @@ from notes.models import Note
 from tasks.models import Task
 from notes.forms import NoteCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 import datetime
 
 # Create your views here.
+@login_required
 def notes_list_view(request, *args, **kwargs):
     context = {
         "notes": Note.objects.all(),
@@ -16,6 +18,7 @@ def notes_list_view(request, *args, **kwargs):
     
     return render(request, 'notes_list.html', context) 
 
+@login_required
 def note_detail_view(request, id):
     obj = get_object_or_404(Note, id=id)
     context = {
@@ -23,6 +26,7 @@ def note_detail_view(request, id):
     }
     return render(request, 'note_detail.html', context)
 
+@login_required
 def note_update_view(request, id):
     obj = get_object_or_404(Note, id=id)
     form = NoteCreationForm(request.POST or None, instance=obj)
@@ -37,6 +41,7 @@ def note_update_view(request, id):
     }
     return render(request, 'note_create.html', context)
 
+@login_required
 def note_delete_view(request, id):
     obj = get_object_or_404(Note, id=id)
     if request.method == 'POST':
@@ -47,6 +52,7 @@ def note_delete_view(request, id):
     }
     return render(request, 'note_delete.html', context)
 
+@login_required
 def note_create_view(request, taskid=None, projectid=None, actionid=None):
     initial_data = {}
     if taskid:

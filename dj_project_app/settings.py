@@ -149,7 +149,7 @@ STATIC_ROOT = dbconfig['static_root']
 
 STATICFILES_DIRS = (
     # location of your application, should not be public web accessible 
-    os.path.join(BASE_DIR,'junk','static-dev'),
+    os.path.join(BASE_DIR,'static'),
 )
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
