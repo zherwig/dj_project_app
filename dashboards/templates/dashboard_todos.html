@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">To Do List</h1>
+</div>
+<div class="container">
+{% for batch in task_batches %}
+    <h2>{{ batch.name}}</h2>
+    <ul class="todo_page_actions_list">
+        {% for todo_item in batch.tasks%}
+        <li>
+            <div class="todo_page_item">
+                <div class="row todo_page_item_row">
+                    <div class="col-4 todo_page_item_duedate">{{ todo_item.duedate }}</div>
+                    <div class="col-4"></div>
+                    <div class="text-right col-4 todo_page_item_assignee">{{ todo_item.assignee.first_name }}</div>
+                </div>
+                <div class="row todo_page_item_row">
+                    <div class="col-12 todo_page_item_title">
+                        <h4>{{ todo_item.title }}</h4>
+                    </div>
+                </div>
+                <div class="row todo_page_item_row">
+                    <div class="col-4 todo_page_item_task_title">
+                        <a class="text-center small todo_page_item_task_title_text" href="{{ todo_item.task.get_absolute_url }}">
+                            {{ todo_item.task.title }}
+                        </a>
+                    </div>
+                    <div class="col-4 todo_page_item_project_title">
+                        <a class="text-center small todo_page_item_project_title_text" href="{{ todo_item.task.project.get_absolute_url }}">
+                            {{ todo_item.task.project.title }}
+                        </a>
+                    </div>
+                    <div class="col-4 text-right">
+                        <a class="btn btn-outline-primary btn-sm" href='{{ todo_item.get_absolute_url }}update'>Edit</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+</div>
+{% endblock %}

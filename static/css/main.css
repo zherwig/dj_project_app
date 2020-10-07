@@ -10,7 +10,7 @@ body {
 
 
 .dashboard_row {
-    margin-bottom: 1rem;
+    margin-bottom: 5rem;
   }
 
 .dashboardcard {
@@ -67,7 +67,59 @@ body {
     background-color: #eeeeee;
 }
 
+.project_page_task_card{
+    padding: 0;
+}
+
+.project_page_task_card_header{
+    height: 75px;
+}
+
+.project_page_button{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.project_page_header{
+    margin-top: 10px;
+}
+
+.project_page_no_tasks{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
 .note-card{
     width: 25rem;
     margin: auto;
+}
+
+
+.todo_page_actions_list{
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.todo_page_item {
+    width: 100%;
+    border: 2px solid black;
+    margin: 2px;
+    padding: 3px;
+    background-color: white;
+}
+
+.todo_page_item_row{
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 3px;
+}
+
+.todo_page_item_project_title_text{
+    color: black;
+    text-decoration: none;
+}
+
+.todo_page_item_task_title_text{
+    color: black;
+    text-decoration: none;
 }

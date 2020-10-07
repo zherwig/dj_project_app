@@ -11,7 +11,7 @@
     <p class="lead">Next project due: {{ topic.top_due_date }}</p>
       <div class="row dashboard_row">
       {% for project in topic.projects%}
-       <div class="col-md-4">
+       <div class="col-md-4 col-lg-3">
           <div class="card dashboardcard">
             <div class="card-body">
                 <h5 class="card-title">{{project.title}}</h5>

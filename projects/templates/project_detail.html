@@ -11,86 +11,46 @@
 <h1> </h1>
 <div class="row">
   <div class="col-md-8">
-    <dl class="row">
-        <dt class="col-sm-3">Title</dt>
-        <dd class="col-sm-9">{{project.title}}</dd>
-        <dt class="col-sm-3">Project Description</dt>
-        <dd class="col-sm-9">{{project.detail|linebreaks}}</dd>
-        <dt class="col-sm-3">Closed</dt>
-        <dd class="col-sm-9">{{project.closed}}</dd>
-        <dt class="col-sm-3">Topic</dt>
-        <dd class="col-sm-9">{{project.topic}}</dd>
-        <dt class="col-sm-3">Priority</dt>
-        <dd class="col-sm-9">{{project.priority}}</dd>
-        <dt class="col-sm-3">Place in order</dt>
-        <dd class="col-sm-9">{{project.placeInOrder}}</dd>
-        <dt class="col-sm-3">Due Date</dt>
-        <dd class="col-sm-9">{{project.duedate}}</dd>
-        <dt class="col-sm-3">Owner</dt>
-        <dd class="col-sm-9">{{project.owner}}</dd>
-        <dt class="col-sm-3">Assigned to</dt>
-        <dd class="col-sm-9">{{project.assignee}}</dd>
-        <dt class="col-sm-3">Closed on</dt>
-        <dd class="col-sm-9">{{project.completed_at| default:""}}</dd>
-        <dt class="col-sm-3">Created at</dt>
-        <dd class="col-sm-9">{{project.created_at}}</dd>
-        <dt class="col-sm-3">Updated at</dt>
-        <dd class="col-sm-9">{{project.updated_at}}</dd>
-    </dl>
-
-    <a class="btn btn-success" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
-    <a class="btn btn-primary" href="{{ project.get_absolute_url }}update">Edit</a>
-    <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
-
-    <h2>Open Tasks</h2>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Due</th>
-          <th scope="col">Task Name</th>
-          <th scope="col">Project Name</th>
-          <th scope="col">Completed</th>
-          <th scope="col">Butttons</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for open_task in open_tasks %}
-            <tr>
-            <td>{{open_task.duedate}}</td>
-            <td>{{open_task.title}}</td>
-            <td>{{open_task.project}}</td>
-            <td>{{open_task.completed}}</td>
-            <td><a class="btn btn-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td colspan="4">
-                <table class="project_action_table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Due</th>
-                        <th scope="col">Action</th>
-                        <th scope="col">Assigned to</th>
-                        <th scope="col">Butttons</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for open_task_action in open_task.openactions %}
-                        <tr>
-                          <td>{{open_task_action.duedate}}</td>
-                          <td>{{open_task_action.title}}</td>
-                          <td>{{open_task_action.assignee}}</td>
-                          <td><a class="btn btn-primary btn-sm" href='{{ open_task_action.get_absolute_url }}'>Details</a></td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                </table>
-              </td>
-            </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <h2>Completed tasks</h2>
+    <h2 class="project_page_header">Open Tasks</h2>
+    {% if not open_tasks %}
+    <div class="d-flex justify-content-start">
+      <h5 class="project_page_no_tasks">No open tasks</h5>
+    </div>
+    {% endif %}
+    <div class="row">
+      {% for open_task in open_tasks %}
+      <div class="card project_page_task_card col-sm-6 col-md-6 col-lg-4 align-self-start">
+        <div class="card-header project_page_task_card_header text-center">
+          <h5>{{open_task.title}}</h5>
+        </div>
+        <div class="card-body mx-auto">
+          <a class="btn btn-outline-primary btn-sm" href='{{ open_task.get_absolute_url }}'>Details</a> <a class="btn btn-outline-success btn-sm" href="{% url 'actions:action_create_view' projectid=open_task.project.id taskid=open_task.id%}">New Action</a>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for open_task_action in open_task.openactions %}
+          <li class="list-group-item">
+            <div class="d-flex flex-column">
+              <div><h6>{{open_task_action.title}}</h6></div>
+              <div>{{open_task_action.duedate}} - {{open_task_action.assignee.first_name}}</div>
+              <div class="d-flex justify-content-end"><a class="btn btn-outline-primary btn-sm" href='{{ open_task_action.get_absolute_url }}update'>Edit</a></div>
+              
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        <!-- Card footer -->
+        <div class="card-footer text-muted text-center">
+          {{open_task.duedate}}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <h2 class="project_page_header">Completed tasks</h2>
+    {% if not completed_tasks %}
+      <div class="d-flex justify-content-start">
+        <h5 class="project_page_no_tasks">No completed tasks</h5>
+      </div>
+    {% else %}
     <table class="table table-striped">
       <thead>
         <tr>
@@ -108,13 +68,59 @@
             <td>{{completed_task.title}}</td>
             <td>{{completed_task.project}}</td>
             <td>{{completed_task.completed}}</td>
-            <td><a class="btn btn-primary btn-sm" href='{{ completed_task.get_absolute_url }}'>Details</a> <a class="btn btn-success btn-sm" href="{% url 'actions:action_create_view' projectid=completed_task.project.id taskid=completed_task.id%}">New Action</a></td>
+            <td><a class="btn btn-outline-primary btn-sm" href='{{ completed_task.get_absolute_url }}'>Details</a></td>
             </tr>
         {% endfor %}
       </tbody>
     </table>
+    {% endif %}
+    <h2 class="project_page_header">Talk Stats</h2>
+    <dl class="row">
+      <dt class="col-sm-3">Title</dt>
+      <dd class="col-sm-9">{{project.title}}</dd>
+      <dt class="col-sm-3">Project Description</dt>
+      <dd class="col-sm-9">{{project.detail|linebreaks}}</dd>
+      <dt class="col-sm-3">Closed</dt>
+      <dd class="col-sm-9">{{project.closed}}</dd>
+      <dt class="col-sm-3">Topic</dt>
+      <dd class="col-sm-9">{{project.topic}}</dd>
+      <dt class="col-sm-3">Priority</dt>
+      <dd class="col-sm-9">{{project.priority}}</dd>
+      <dt class="col-sm-3">Place in order</dt>
+      <dd class="col-sm-9">{{project.placeInOrder}}</dd>
+      <dt class="col-sm-3">Due Date</dt>
+      <dd class="col-sm-9">{{project.duedate}}</dd>
+      <dt class="col-sm-3">Owner</dt>
+      <dd class="col-sm-9">{{project.owner}}</dd>
+      <dt class="col-sm-3">Assigned to</dt>
+      <dd class="col-sm-9">{{project.assignee}}</dd>
+      <dt class="col-sm-3">Closed on</dt>
+      <dd class="col-sm-9">{{project.completed_at| default:""}}</dd>
+      <dt class="col-sm-3">Created at</dt>
+      <dd class="col-sm-9">{{project.created_at}}</dd>
+      <dt class="col-sm-3">Updated at</dt>
+      <dd class="col-sm-9">{{project.updated_at}}</dd>
+    </dl>
   </div>
   <div class="col-md-4">
+    <div class="d-flex justify-content-end">
+      <a class="btn btn-success project_page_button" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
+      <a class="btn btn-primary project_page_button" href="{{ project.get_absolute_url }}update">Edit</a>
+      <a class="btn btn-secondary project_page_button" href="{{ request.META.HTTP_REFERER }}">Back</a>
+    </div>
+    <h2 class="project_page_header">Quick Stats</h2>
+    <dl class="row">
+      <dt class="col-sm-3">Closed</dt>
+      <dd class="col-sm-9">{{project.closed}}</dd>
+      <dt class="col-sm-3">Topic</dt>
+      <dd class="col-sm-9">{{project.topic}}</dd>
+      <dt class="col-sm-3">Due Date</dt>
+      <dd class="col-sm-9">{{project.duedate}}</dd>
+      <dt class="col-sm-3">Updated at</dt>
+      <dd class="col-sm-9">{{project.updated_at}}</dd>
+    </dl>
+
+    <h2 class="project_page_header">Create Note</h2>
     {% crispy form %}
     <div class=notes_log>
       <h5>Notes</h5>

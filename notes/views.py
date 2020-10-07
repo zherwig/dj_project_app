@@ -63,7 +63,6 @@ def note_create_view(request, taskid=None, projectid=None, actionid=None):
         initial_data['action'] = actionid
     form = NoteCreationForm(request.POST or None, initial=initial_data)
     if form.is_valid():
-        print("Form valid")
         form_obj = form.save()
         form_obj.updated_at = datetime.datetime.now()
         form_obj.note_updated_by = request.user

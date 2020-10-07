@@ -27,3 +27,8 @@ def get_topics_with_projects_and_open_tasks():
     
     topic_list.sort(key=lambda x: int(x['top_due_date'].strftime('%Y%m%d')))
     return topic_list
+
+def get_actions_per_date_range(start_day_number, end_day_number):
+    start_range = datetime.date.today() + datetime.timedelta(days=start_day_number)
+    end_range = datetime.date.today() + datetime.timedelta(days=end_day_number)
+    return Action.objects.filter(duedate__range=[start_range, end_range], completed=False)
