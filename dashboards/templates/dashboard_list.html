@@ -1,52 +1,64 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="jumbotron">
   <h1 class="display-4">Topics</h1>
 </div>
 <div class="container">
+  <div class="row">
+    <div class="col-12">
+      <form class="form-inline" id="dashboardOnPageSearchForm">
+        <label for="email" class="mr-sm-2">On page search:</label>
+        <input type="text" class="form-control mr-sm-2" placeholder="Search term" id="dashboardOnPageSearchTerm">
+        <input type="submit" class="btn btn-primary" value="Search">
+      </form>
+      <select class="float-right form-control" id="dashboardTopicSelect" name="dashboardTopicSelect">
+        <option value="all">--All--</option>
+        {% for topic in topics %}
+        <option value="{{topic.topic.title}}">{{topic.topic.title}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
 {% for topic in topics %}
-  {% comment %} <div class="row"> {% endcomment %}
-    <h2>{{topic.topic.title}}</h2>
-    <p class="lead">Next project due: {{ topic.top_due_date }}</p>
-      <div class="row dashboard_row">
-      {% for project in topic.projects%}
-       <div class="col-md-4 col-lg-3">
-          <div class="card dashboardcard">
-            <div class="card-body">
-                <h5 class="card-title">{{project.title}}</h5>
-                <p>Due: {{project.duedate}}</p>
-                <a class="btn btn-sm btn-primary" href="{{ project.get_absolute_url }}">Details</a>
-                <a class="btn btn-sm btn-outline-success" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
-                <hr />
-                <div class="dashboard_card_tasks-block">
-                  {% for task in project.tasks%}
-                    <div class="dashboard_card_tasks-card">
-                      <div class="dashboard_card_task_title">
-                        <p>{{task.title}}</p>
+    <div class="row topic_row">
+      <div class="container">
+        <h2>{{topic.topic.title}}</h2>
+        <p class="lead">Next project due: {{ topic.top_due_date }}</p>
+          <div class="row dashboard_row">
+            {% for project in topic.projects%}
+            <div class="col-md-4 col-lg-3 ">
+                <div class="card dashboardcard">
+                  <div class="card-body">
+                      <h5 class="card-title">{{project.title}}</h5>
+                      <p>Due: {{project.duedate}}</p>
+                      <a class="btn btn-sm btn-primary" href="{{ project.get_absolute_url }}">Details</a>
+                      <a class="btn btn-sm btn-outline-success" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
+                      <hr />
+                      <div class="dashboard_card_tasks-block">
+                        {% for task in project.tasks%}
+                          <div class="dashboard_card_tasks-card">
+                            <div class="dashboard_card_task_title">
+                              <p>{{task.title}}</p>
+                            </div>
+                            <div class="dashboard_card_task_duedate">
+                              <p>{{task.duedate}}</p>
+                            </div>
+                            <div class="dashboard_card_task_button">
+                              <a class="btn btn-outline-primary btn-sm" href='{{ task.get_absolute_url }}'>Details</a>
+                            </div>
+                          </div>
+                        {% endfor %}
                       </div>
-                      <div class="dashboard_card_task_duedate">
-                        <p>{{task.duedate}}</p>
-                      </div>
-                      <div class="dashboard_card_task_button">
-                        <a class="btn btn-outline-primary btn-sm" href='{{ task.get_absolute_url }}'>Details</a>
-                      </div>
-                    </div>
-                  {% endfor %}
+                  </div>
                 </div>
-            </div>
+              </div>
+            {% endfor %}
           </div>
-        </div>
-      {% endfor %}
       </div>
-        {% comment %} <tr>
-        <th scope="row">{{ forloop.counter }}</th>
-        <td>{{project.title}}</td>
-        <td>{{project.closed}}</td>
-        <td>{{project.duedate}}</td>
-        <td><a href='{{ project.get_absolute_url }}'>Edit</a></td>
-        </tr> {% endcomment %}
-  {% comment %} </div> {% endcomment %}
+    </div>
 {% endfor %}
 </div>
+<script src="{% static '/js/dashboard.js' %}"></script>
 {% endblock %}

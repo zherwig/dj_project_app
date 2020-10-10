@@ -47,3 +47,9 @@ def dashboard_actions_view(request, *args, **kwargs):
     
     return render(request, 'dashboard_todos.html', context) 
 
+@login_required
+def dashboard_actions_fix_overdues(request, *args, **kwargs):   
+    overdue_actions = dashboard_applogic.get_actions_per_date_range(-900, -1)
+    for overdue_action in overdue_actions:
+        dashboard_applogic.move_action_to_today(overdue_action.id)
+    return redirect("/todos")

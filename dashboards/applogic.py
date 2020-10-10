@@ -32,3 +32,9 @@ def get_actions_per_date_range(start_day_number, end_day_number):
     start_range = datetime.date.today() + datetime.timedelta(days=start_day_number)
     end_range = datetime.date.today() + datetime.timedelta(days=end_day_number)
     return Action.objects.filter(duedate__range=[start_range, end_range], completed=False)
+
+def move_action_to_today(action_id):
+    action_to_update = Action.objects.filter(id = action_id)[0]
+    if action_to_update:
+        action_to_update.duedate = datetime.date.today()
+        action_to_update.save()

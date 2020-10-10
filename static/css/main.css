@@ -53,6 +53,14 @@ body {
     }
 }
 
+#dashboardTopicSelect{
+    max-width: 300px;
+}
+
+.dashboard_hidden_card,
+.dashboard_hidden_row{
+    display: none;
+}
 
 .project_action_table{
     width: 100%;

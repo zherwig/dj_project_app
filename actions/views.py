@@ -60,6 +60,14 @@ def action_delete_view(request, id):
     return render(request, 'action_delete.html', context)
 
 @login_required
+def action_complete_view(request, id):
+    obj = get_object_or_404(Action, id=id)
+    obj.completed_at = datetime.datetime.now()
+    obj.completed = True
+    obj.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
 def action_create_view(request, taskid=None, projectid=None):
     if request.POST:
         form = ActionCreationForm(request.POST)
