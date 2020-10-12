@@ -11,6 +11,7 @@ def get_topics_with_projects_and_open_tasks():
         {'topic': topic, 
         'projects': Project.objects
                             .filter(topic = topic.id)
+                            .filter(closed = False)
                             .order_by('duedate')
         } 
         for topic in all_topics]

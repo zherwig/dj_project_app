@@ -67,6 +67,34 @@ def action_complete_view(request, id):
     obj.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
+
+@login_required
+def action_complete_and_next_view(request, id):
+    if request.POST:
+        form = ActionCreationForm(request.POST)
+    else:
+        obj = get_object_or_404(Action, id=id)
+        obj.completed_at = datetime.datetime.now()
+        obj.completed = True
+        obj.save()
+        initial_data = {
+            'owner': obj.owner,
+            'duedate': datetime.datetime.now().date(),
+            'assignee': obj.assignee,
+            'previous_url' : request.META.get('HTTP_REFERER'),
+            'task': obj.task,
+        }
+        form = ActionCreationForm(initial=initial_data)
+        form.fields['task'].queryset = Task.objects.filter(project_id=obj.task.project.id)
+    if form.is_valid():
+        previous_ulr = form.cleaned_data['previous_url']
+        form.save()
+        return redirect(previous_ulr)
+    context = {
+        "form" : form,
+    }
+    return render(request, 'action_create.html', context)
+
 @login_required
 def action_create_view(request, taskid=None, projectid=None):
     if request.POST:
