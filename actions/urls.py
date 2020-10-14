@@ -13,5 +13,7 @@ urlpatterns = [
     path('<int:id>/update/', action_views.action_update_view, name='action_update_view'),
     path('<int:id>/delete/', action_views.action_delete_view, name='action_delete_view'),    
     path('<int:id>/complete/', action_views.action_complete_view, name='action_complete_view'),
-    path('<int:id>/completeandnext/', action_views.action_complete_and_next_view, name='action_complete_and_next_view'),    
+    path('<int:id>/completeandnext/', action_views.action_complete_and_next_view, name='action_complete_and_next_view'),
+    path('<int:id>/togglehighlight/', action_views.action_highlight_toggle_view, name='action_highlight_toggle_view'),
+        
 ]

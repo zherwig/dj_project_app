@@ -25,7 +25,7 @@
     <div class="row topic_row">
       <div class="container">
         <h2>{{topic.topic.title}}</h2>
-        <p class="lead">Next project due: {{ topic.top_due_date }}</p>
+        <p class="lead">Next project due: {{ topic.top_due_date }}   <a class="btn btn-sm btn-outline-primary dashboard-new-project-button" href="/projects/create/{{topic.topic.id}}">New Project</a></p>
           <div class="row dashboard_row">
             {% for project in topic.projects%}
             <div class="col-md-4 col-lg-3 ">

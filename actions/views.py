@@ -119,3 +119,13 @@ def action_create_view(request, taskid=None, projectid=None):
         "form" : form,
     }
     return render(request, 'action_create.html', context)
+
+@login_required
+def action_highlight_toggle_view(request, id):
+    obj = get_object_or_404(Action, id=id)
+    if obj.highlighted == True:
+        obj.highlighted = False
+    else:
+        obj.highlighted = True
+    obj.save()
+    return redirect(request.META.get('HTTP_REFERER'))

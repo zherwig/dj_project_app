@@ -56,8 +56,8 @@ topicSelect.onchange = function() {
         for(var i = 0;i < topicSections.length;i++){
             topicSections[i].classList.remove("dashboard_hidden_row")
             projectCards = topicSections[i].getElementsByClassName("dashboardcard")
-            for(var i = 0;i < projectCards.length;i++){
-                projectCards[i].parentNode.classList.remove("dashboard_hidden_card")
+            for(var j = 0;j < projectCards.length;j++){
+                projectCards[j].parentNode.classList.remove("dashboard_hidden_card")
             }
         }
     }

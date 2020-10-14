@@ -62,6 +62,14 @@ body {
     display: none;
 }
 
+.dashboard-new-project-button{
+    font-size: 0.8rem;
+}
+
+.dashboard_highlighted_card {
+    background-color: #fcfad2 !important; 
+}
+
 .project_action_table{
     width: 100%;
     background-color: #eeeeee;
