@@ -15,7 +15,7 @@ from pathlib import Path
 
 import socket
 SERVER_HOST = socket.gethostname().lower()
-if SERVER_HOST.endswith('.webfaction.com'):
+if SERVER_HOST.endswith('pm'):
     from config.config_prod import dbconfig
 else:
     from config.config_local import dbconfig
@@ -33,7 +33,7 @@ SECRET_KEY = 'dxx-xkjc=&nf)=(exs0-0y%+y#%h&+jzl4fh4anu^fxsg&p%^rkbj('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','pm.hstalks.com']
+ALLOWED_HOSTS = ['127.0.0.1','pm.hstalks.com', '185.52.2.117']
 
 
 # Application definition
