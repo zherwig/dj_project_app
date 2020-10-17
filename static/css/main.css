@@ -14,19 +14,16 @@ body {
   }
 
 .dashboardcard {
-    width: 14rem;
+    width: 100%;
     margin-bottom: 1rem;
 }
 
-.dashboard_card_tasks-block{
-    display: flex;
-    flex-wrap: wrap;
+.dashboard_card_tasks_block{
 }
 
-.dashboard_card_tasks-card{
+.dashboard_card_tasks_card{
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    margin-top: 15px;
 }
 
 .dashboard_card_tasks-card p{
@@ -35,26 +32,46 @@ body {
 
 .dashboard_card_task_title{
     width: 100%;
-    margin-top: 10px;
 }
 
-.dashboard_card_task_duedate{
-    width: 66.6666%
+.dashboard_card_task_title_text{
+    margin-bottom: 0px;
 }
 
-.dashboard_card_task_button{
-    width: 33.3333%
+.dashboard_card_task_small_text{
+    font-size: 0.75rem;
+    margin-bottom: 2px;
 }
 
-
-@media (min-width: 992px){
+/* @media (max-width: 1500px){
     .dashboardcard {
         width: 18rem;
     }
 }
 
+@media (max-width: 1250px){
+    .dashboardcard {
+        width: 16rem;
+    }
+}
+
+@media (max-width: 768px){
+    .dashboardcard {
+        width: 90%;
+    }
+} */
+
+@media (max-width: 990px){
+    #dashboardTopicSelect{
+        float: none !important;
+        margin-bottom: 10px;
+        font-size: 0.8rem;
+    }
+}
+
+
 #dashboardTopicSelect{
-    max-width: 300px;
+    max-width: 200px;   
 }
 
 .dashboard_hidden_card,
@@ -138,4 +155,8 @@ body {
 .todo_page_item_task_title_text{
     color: black;
     text-decoration: none;
+}
+
+.todo_page_item_buttons{
+    margin-top: 5px;
 }

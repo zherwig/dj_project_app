@@ -23,21 +23,22 @@
                     </div>
                 </div>
                 <div class="row todo_page_item_row">
-                    <div class="col-4 todo_page_item_task_title">
+                    <div class="col-6 col-lg-3 todo_page_item_task_title">
                         <a class="text-center small todo_page_item_task_title_text" href="{{ todo_item.task.get_absolute_url }}">
                             {{ todo_item.task.title }}
                         </a>
                     </div>
-                    <div class="col-4 todo_page_item_project_title">
+                    <div class="col-6 col-lg-3 todo_page_item_project_title">
                         <a class="text-center small todo_page_item_project_title_text" href="{{ todo_item.task.project.get_absolute_url }}">
                             {{ todo_item.task.project.title }}
                         </a>
                     </div>
-                    <div class="col-4 text-right">
+                    <div class="col-12 col-lg-6 text-right todo_page_item_buttons">
                         <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}togglehighlight'>Highlight</a>
                         <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}update'>Edit</a>
-                        <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}complete'>Complete</a>
-                        <a class="btn btn-info btn-sm" href='{{ todo_item.get_absolute_url }}completeandnext'>Complete and Next</a>
+                        <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}push'>Push</a>
+                        <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}complete'>Done</a>
+                        <a class="btn btn-info btn-sm" href='{{ todo_item.get_absolute_url }}completeandnext'>Done &amp; New</a>
                         
                     </div>
                 </div>

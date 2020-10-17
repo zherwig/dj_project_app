@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from tasks.models import Task
 from actions.models import Action
 from tasks.forms import TaskCreationForm
@@ -85,3 +85,16 @@ def task_create_view(request, projectid=None):
         "form" : form
     }
     return render(request, 'task_create.html', context)
+
+@login_required
+def task_complete_view(request, id):
+    obj = get_object_or_404(Task, id=id)
+    actions_to_close = Action.objects.filter(task_id = id).filter(completed = False)
+    for action_to_close in actions_to_close:
+        action_to_close.completed_at = datetime.datetime.now()
+        action_to_close.completed = True
+        action_to_close.save()
+    obj.completed_at = datetime.datetime.now()
+    obj.completed = True
+    obj.save()
+    return redirect(reverse('dashboards:home'))

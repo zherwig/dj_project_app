@@ -34,6 +34,7 @@
 
 <a class="btn btn-success" href="{% url 'actions:action_create_view' projectid=task.project.id taskid=task.id%}">New Action</a>
 <a class="btn btn-primary" href="{{ task.get_absolute_url }}update">Edit</a>
+<a class="btn btn-primary" href="{{ task.get_absolute_url }}complete">Complete</a>
 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">Back</a>
 
 
