@@ -131,6 +131,13 @@
           <div class="card note-card">
             <div class="card-body">
               <h6 class="card-title">{{ note.created_at|date:"j/n/y" }} - {{note.note_title}}</h6>
+              <p class="card-subtitle text-muted">
+                {% if note.action %}Action: {{note.action}}
+                {% elif note.task %}Task: {{ note.task}}
+                {% elif note.project %}Project: {{ note.task}}
+                {% endif %}
+
+              </p>
               <p class="card-text">{{note.note_text|linebreaks}}</p>
               <a href="{{ note.get_absolute_url }}update" class="btn btn-outline-secondary btn-sm">Edit</a>
             </div>

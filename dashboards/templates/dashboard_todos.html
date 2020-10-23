@@ -19,7 +19,7 @@
                 </div>
                 <div class="row todo_page_item_row">
                     <div class="col-12 todo_page_item_title">
-                        <h4>{{ todo_item.title }}</h4>
+                        <h4><a href='{{ todo_item.get_absolute_url }}update'>{{ todo_item.title }}</a></h4>
                     </div>
                 </div>
                 <div class="row todo_page_item_row">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-12 col-lg-6 text-right todo_page_item_buttons">
                         <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}togglehighlight'>Highlight</a>
-                        <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}update'>Edit</a>
+                        <a class="btn btn-outline-info btn-sm" href='/notes/create/action/{{todo_item.id}}'>Note</a>
                         <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}push'>Push</a>
                         <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}complete'>Done</a>
                         <a class="btn btn-info btn-sm" href='{{ todo_item.get_absolute_url }}completeandnext'>Done &amp; New</a>
