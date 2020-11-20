@@ -160,3 +160,7 @@ body {
 .todo_page_item_buttons{
     margin-top: 5px;
 }
+
+.task_page_button{
+    margin-left: 5px;
+}

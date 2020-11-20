@@ -6,6 +6,8 @@ from tasks.forms import TaskCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import datetime
+from notes.forms import AddNoteForm
+from notes.applogic import getRelatedNotes
 
 # Create your views here.
 @login_required
@@ -21,7 +23,21 @@ def tasks_list_view(request, *args, **kwargs):
 @login_required
 def task_detail_view(request, id):
     obj = get_object_or_404(Task, id=id)
+    notes = getRelatedNotes("task", id)
+    form = AddNoteForm(request.POST or None)
+    if form.is_valid():
+        form_obj = form.save()
+        form_obj.task = obj
+        form_obj.project = obj.project
+        form_obj.note_created_by = request.user
+        form_obj.note_updated_by = request.user
+        form_obj.updated_at = datetime.datetime.now()
+        form_obj.created_at = datetime.datetime.now()
+        form_obj.save()
+        form = AddNoteForm()
     context = {
+        "notes": notes,
+        "form": form,
         "task": obj,
         "completed_actions": Action.objects.filter(task_id=obj.id).filter(completed=True),
         "open_actions": Action.objects.filter(task_id=obj.id).filter(completed=False).order_by('duedate'),

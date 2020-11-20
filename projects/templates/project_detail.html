@@ -8,7 +8,6 @@
   <h1>{{project.title}}</h1>
   <p>{{project.detail|linebreaks}}</p>
 </div>
-<h1> </h1>
 <div class="row">
   <div class="col-md-8">
     <h2 class="project_page_header">Open Tasks</h2>
@@ -134,7 +133,7 @@
               <p class="card-subtitle text-muted">
                 {% if note.action %}Action: {{note.action}}
                 {% elif note.task %}Task: {{ note.task}}
-                {% elif note.project %}Project: {{ note.task}}
+                {% elif note.project %}Project: {{ note.project}}
                 {% endif %}
 
               </p>
@@ -143,7 +142,7 @@
             </div>
           </div>
         {% endfor %}
-    </div>
+    </div>   
   </div>
 </div>
 
