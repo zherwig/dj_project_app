@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from projects.models import Project
+from tasks.models import Task
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from dashboards import applogic as dashboard_applogic
@@ -20,6 +21,7 @@ def dashboard_list_view(request, *args, **kwargs):
 @login_required
 def dashboard_actions_view(request, *args, **kwargs):   
     context = {
+        "quick_action_task": Task.objects.get(title="Random stuff"),
         "task_batches": [
             {
                 'name':'Overdue',
@@ -44,7 +46,6 @@ def dashboard_actions_view(request, *args, **kwargs):
         ],
         "user":request.user,
     }
-    
     return render(request, 'dashboard_todos.html', context) 
 
 @login_required

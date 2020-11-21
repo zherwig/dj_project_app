@@ -37,7 +37,7 @@
             <td>{{open_action.title}}</td>
             <td>{{open_action.task.project}}</td>
             <td>{{open_action.task}}</td>
-            <td><a class="btn btn-primary btn-sm" href='{{ open_action.get_absolute_url }}update'>Edit</a>  <a class="btn btn-info btn-sm" href='{{ open_action.get_absolute_url }}complete'>Complete</a></td>
+            <td><a class="btn btn-primary btn-sm" href='{{ open_action.get_absolute_url }}update'>Edit</a>  <a class="btn btn-info btn-sm" href='{{ open_action.get_absolute_url }}complete'>Complete</a>  <a class="btn btn-info btn-sm btn-complete-and-next" href='{{ open_action.get_absolute_url }}completeandnext'>Complete and next</a></td>
             </tr>
         {% endfor %}
       </tbody>
