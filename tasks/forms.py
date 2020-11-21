@@ -4,6 +4,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Layout, Submit
 
 class TaskCreationForm(forms.ModelForm):
+    previous_url = forms.URLField(required=False)
+    
     duedate = forms.DateField(
         widget=forms.TextInput(     
             attrs={'type': 'date'} 
@@ -16,6 +18,7 @@ class TaskCreationForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_id = 'id-exampleForm'
         self.helper.form_method = 'post'
+        #self.fields['previous_url'].widget = HiddenInput()
         self.helper.add_input(Submit('submit', 'Submit'))
     
     class Meta:

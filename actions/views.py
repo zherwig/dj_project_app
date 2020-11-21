@@ -30,11 +30,14 @@ def action_detail_view(request, id):
 @login_required
 def action_update_view(request, id):
     obj = get_object_or_404(Action, id=id)
-    form = ActionCreationForm(request.POST or None, instance=obj)
+    initial_data = {
+        'previous_url' : request.META.get('HTTP_REFERER'),
+    }
+    form = ActionCreationForm(request.POST or None, instance=obj, initial=initial_data)    
     if form.is_valid():
+        previous_url = form.cleaned_data['previous_url']
         previous_object = Action.objects.get(id=form.instance.id)
         form_obj = form.save()
-        redirect_project = form_obj.task.project
         if previous_object.completed == False and form.instance.completed == True:
             form_obj.completed_at = datetime.datetime.now()
         elif previous_object.completed == True and form.instance.completed == False:
@@ -42,7 +45,7 @@ def action_update_view(request, id):
         form_obj.updated_at = datetime.datetime.now()
         form_obj.save()
         form = ActionCreationForm()
-        return redirect(redirect_project.get_absolute_url())
+        return redirect(previous_url)
     context = {
         "form" : form
     }
