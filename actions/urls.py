@@ -9,6 +9,7 @@ urlpatterns = [
     path('create/', action_views.action_create_view, name='action_create_view'),
     path('create/<int:projectid>/', action_views.action_create_view, name='action_create_view'),
     path('create/<int:projectid>/<int:taskid>/', action_views.action_create_view, name='action_create_view'),
+    path('create/<int:projectid>/<int:taskid>/<str:assignee>', action_views.action_create_view, name='action_create_view'),
     path('<int:id>/', action_views.action_detail_view, name='action_detail_view'),
     path('<int:id>/update/', action_views.action_update_view, name='action_update_view'),
     path('<int:id>/delete/', action_views.action_delete_view, name='action_delete_view'),    

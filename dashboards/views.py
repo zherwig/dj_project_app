@@ -47,19 +47,24 @@ def dashboard_actions_view(request, *args, **kwargs):
         "staff": [
             {
                 'name': 'Isabel',
-                'tasks': dashboard_applogic.get_staff_open_tasks("isabel")
+                'tasks': dashboard_applogic.get_staff_open_tasks("isabel"),
+                'task_for_button': Task.objects.get(title="Follow-ups with Isabel"),
+
             },
             {
                 'name': 'Blanka',
-                'tasks': dashboard_applogic.get_staff_open_tasks("blanka")
+                'tasks': dashboard_applogic.get_staff_open_tasks("blanka"),
+                'task_for_button': Task.objects.get(title="Follow-ups with Blanka"),
             },
             {
                 'name': 'Fernando',
-                'tasks': dashboard_applogic.get_staff_open_tasks("isabel")
+                'tasks': dashboard_applogic.get_staff_open_tasks("fernando"),
+                'task_for_button': Task.objects.get(title="Follow-ups with Fernando"),
             },
             {
                 'name': 'Everyone',
-                'tasks': dashboard_applogic.get_staff_open_tasks("everyone")
+                'tasks': dashboard_applogic.get_staff_open_tasks("everyone"),
+                'task_for_button': Task.objects.get(title="Random stuff"),
             },
         ],
         "user":request.user,

@@ -65,8 +65,8 @@
 {% for staffmember in staff %}
     <div id="{{ staffmember.name }}" class="dashboard_tabcontent">
         <div class="container">
-            <!-- <a class="btn btn-outline-dark float-right" href="/actions/create/{{ quick_action_task.project.id }}/{{ quick_action_task.id }}">New Random task</a>
-            <a class="btn btn-outline-dark float-right" href="/fixoverdues">Move Overdue Tasks</a> -->
+            <a class="btn btn-outline-dark float-right" href="/actions/create/{{ staffmember.task_for_button.project.id }}/{{ staffmember.task_for_button.id }}/{{ staffmember.name }}">New task for {{ staffmember.name }}</a>
+            <!-- <a class="btn btn-outline-dark float-right" href="/fixoverdues">Move Overdue Tasks</a> -->
             {% for batch in staffmember.tasks %}
                 <h2>{{ batch.name}}</h2>
                 <ul class="todo_page_actions_list">

@@ -99,14 +99,22 @@ def action_complete_and_next_view(request, id):
     return render(request, 'action_create.html', context)
 
 @login_required
-def action_create_view(request, taskid=None, projectid=None):
+def action_create_view(request, taskid=None, projectid=None, assignee=None):
+    if not assignee:
+        assignee = request.user
+    else:
+        try:
+            assignee = User.objects.get(username__contains=assignee.lower())
+        except:
+            assignee = request.user
+
     if request.POST:
         form = ActionCreationForm(request.POST)
     else:
         initial_data = {
             'owner': request.user,
             'duedate': datetime.datetime.now().date(),
-            'assignee': request.user,
+            'assignee': assignee,
             'previous_url' : request.META.get('HTTP_REFERER')
         }
         if taskid and projectid:
