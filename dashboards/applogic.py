@@ -2,6 +2,7 @@ from topics.models import Topic
 from projects.models import Project
 from tasks.models import Task
 from actions.models import Action
+from django.contrib.auth.models import User
 import datetime
 
 def get_topics_with_projects_and_open_tasks():
@@ -33,6 +34,28 @@ def get_actions_per_date_range(start_day_number, end_day_number):
     start_range = datetime.date.today() + datetime.timedelta(days=start_day_number)
     end_range = datetime.date.today() + datetime.timedelta(days=end_day_number)
     return Action.objects.filter(duedate__range=[start_range, end_range], completed=False)
+
+def get_staff_actions_per_date_range(start_day_number, end_day_number, staff_member):
+    staff_member_id = User.objects.get(username__contains=staff_member)
+    start_range = datetime.date.today() + datetime.timedelta(days=start_day_number)
+    end_range = datetime.date.today() + datetime.timedelta(days=end_day_number)
+    return Action.objects.filter(duedate__range=[start_range, end_range], completed=False, assignee=staff_member_id)
+
+def get_staff_open_tasks(staff_member):
+    return [
+        {
+            'name': "Overdue",
+            'tasks': get_staff_actions_per_date_range(-900, -1, staff_member)
+        },
+        {
+            'name': "Today",
+            'tasks': get_staff_actions_per_date_range(0, 0, staff_member)
+        },
+        {
+            'name': "Future",
+            'tasks': get_staff_actions_per_date_range(1, 1000, staff_member)
+        },
+    ]
 
 def move_action_to_today(action_id):
     action_to_update = Action.objects.filter(id = action_id)[0]

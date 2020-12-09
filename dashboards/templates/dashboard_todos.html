@@ -1,52 +1,118 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="jumbotron">
   <h1 class="display-4">To Do List</h1>
 </div>
-<div class="container">
-<a class="btn btn-outline-dark float-right" href="/actions/create/{{ quick_action_task.project.id }}/{{ quick_action_task.id }}">New Random task</a>
-<a class="btn btn-outline-dark float-right" href="/fixoverdues">Move Overdue Tasks</a>
-{% for batch in task_batches %}
-    <h2>{{ batch.name}}</h2>
-    <ul class="todo_page_actions_list">
-        {% for todo_item in batch.tasks%}
-        <li>
-            <div class="todo_page_item {% if todo_item.highlighted == True %}dashboard_highlighted_card{% endif %}">
-                <div class="row todo_page_item_row">
-                    <div class="col-4 todo_page_item_duedate">{{ todo_item.duedate }}</div>
-                    <div class="col-4"></div>
-                    <div class="text-right col-4 todo_page_item_assignee">{{ todo_item.assignee.first_name }}</div>
-                </div>
-                <div class="row todo_page_item_row">
-                    <div class="col-12 todo_page_item_title">
-                        <h4><a href='{{ todo_item.get_absolute_url }}update'>{{ todo_item.title }}</a></h4>
+
+<!-- Tab links -->
+<div class="dashboard_tab">
+    <button class="dashboard_tablinks" onclick="openStaffMember(event, 'Home')">Home</button>
+    {% for staffmember in staff %}
+        <button class="dashboard_tablinks" onclick="openStaffMember(event, '{{ staffmember.name }}')">{{ staffmember.name }}</button>
+    {% endfor %}
+  </div>
+  
+<!-- Tab content -->
+<div id="Home" class="dashboard_tabcontent">
+    <div class="container">
+        <a class="btn btn-outline-dark float-right" href="/actions/create/{{ quick_action_task.project.id }}/{{ quick_action_task.id }}">New Random task</a>
+        <a class="btn btn-outline-dark float-right" href="/fixoverdues">Move Overdue Tasks</a>
+        {% for batch in task_batches %}
+            <h2>{{ batch.name}}</h2>
+            <ul class="todo_page_actions_list">
+                {% for todo_item in batch.tasks%}
+                <li>
+                    <div class="todo_page_item {% if todo_item.highlighted == True %}dashboard_highlighted_card{% endif %}">
+                        <div class="row todo_page_item_row">
+                            <div class="col-4 todo_page_item_duedate">{{ todo_item.duedate }}</div>
+                            <div class="col-4"></div>
+                            <div class="text-right col-4 todo_page_item_assignee">{{ todo_item.assignee.first_name }}</div>
+                        </div>
+                        <div class="row todo_page_item_row">
+                            <div class="col-12 todo_page_item_title">
+                                <h4><a href='{{ todo_item.get_absolute_url }}update'>{{ todo_item.title }}</a></h4>
+                            </div>
+                        </div>
+                        <div class="row todo_page_item_row">
+                            <div class="col-6 col-lg-3 todo_page_item_task_title">
+                                <a class="text-center small todo_page_item_task_title_text" href="{{ todo_item.task.get_absolute_url }}">
+                                    {{ todo_item.task.title }}
+                                </a>
+                            </div>
+                            <div class="col-6 col-lg-3 todo_page_item_project_title">
+                                <a class="text-center small todo_page_item_project_title_text" href="{{ todo_item.task.project.get_absolute_url }}">
+                                    {{ todo_item.task.project.title }}
+                                </a>
+                            </div>
+                            <div class="col-12 col-lg-6 text-right todo_page_item_buttons">
+                                <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}togglehighlight'>Highlight</a>
+                                <a class="btn btn-outline-info btn-sm" href='/notes/create/action/{{todo_item.id}}'>Note</a>
+                                <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}push'>Push</a>
+                                <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}complete'>Done</a>
+                                <a class="btn btn-info btn-sm" href='{{ todo_item.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                                
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row todo_page_item_row">
-                    <div class="col-6 col-lg-3 todo_page_item_task_title">
-                        <a class="text-center small todo_page_item_task_title_text" href="{{ todo_item.task.get_absolute_url }}">
-                            {{ todo_item.task.title }}
-                        </a>
-                    </div>
-                    <div class="col-6 col-lg-3 todo_page_item_project_title">
-                        <a class="text-center small todo_page_item_project_title_text" href="{{ todo_item.task.project.get_absolute_url }}">
-                            {{ todo_item.task.project.title }}
-                        </a>
-                    </div>
-                    <div class="col-12 col-lg-6 text-right todo_page_item_buttons">
-                        <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}togglehighlight'>Highlight</a>
-                        <a class="btn btn-outline-info btn-sm" href='/notes/create/action/{{todo_item.id}}'>Note</a>
-                        <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}push'>Push</a>
-                        <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}complete'>Done</a>
-                        <a class="btn btn-info btn-sm" href='{{ todo_item.get_absolute_url }}completeandnext'>Done &amp; New</a>
-                        
-                    </div>
-                </div>
-            </div>
-        </li>
+                </li>
+                {% endfor %}
+            </ul>
         {% endfor %}
-    </ul>
-{% endfor %}
+    </div>
 </div>
+{% for staffmember in staff %}
+    <div id="{{ staffmember.name }}" class="dashboard_tabcontent">
+        <div class="container">
+            <!-- <a class="btn btn-outline-dark float-right" href="/actions/create/{{ quick_action_task.project.id }}/{{ quick_action_task.id }}">New Random task</a>
+            <a class="btn btn-outline-dark float-right" href="/fixoverdues">Move Overdue Tasks</a> -->
+            {% for batch in staffmember.tasks %}
+                <h2>{{ batch.name}}</h2>
+                <ul class="todo_page_actions_list">
+                    {% for todo_item in batch.tasks%}
+                    <li>
+                        <div class="todo_page_item {% if todo_item.highlighted == True %}dashboard_highlighted_card{% endif %}">
+                            <div class="row todo_page_item_row">
+                                <div class="col-4 todo_page_item_duedate">{{ todo_item.duedate }}</div>
+                                <div class="col-4"></div>
+                                <div class="text-right col-4 todo_page_item_assignee">{{ todo_item.assignee.first_name }}</div>
+                            </div>
+                            <div class="row todo_page_item_row">
+                                <div class="col-12 todo_page_item_title">
+                                    <h4><a href='{{ todo_item.get_absolute_url }}update'>{{ todo_item.title }}</a></h4>
+                                </div>
+                            </div>
+                            <div class="row todo_page_item_row">
+                                <div class="col-6 col-lg-3 todo_page_item_task_title">
+                                    <a class="text-center small todo_page_item_task_title_text" href="{{ todo_item.task.get_absolute_url }}">
+                                        {{ todo_item.task.title }}
+                                    </a>
+                                </div>
+                                <div class="col-6 col-lg-3 todo_page_item_project_title">
+                                    <a class="text-center small todo_page_item_project_title_text" href="{{ todo_item.task.project.get_absolute_url }}">
+                                        {{ todo_item.task.project.title }}
+                                    </a>
+                                </div>
+                                <div class="col-12 col-lg-6 text-right todo_page_item_buttons">
+                                    <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}togglehighlight'>Highlight</a>
+                                    <a class="btn btn-outline-info btn-sm" href='/notes/create/action/{{todo_item.id}}'>Note</a>
+                                    <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}push'>Push</a>
+                                    <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}complete'>Done</a>
+                                    <a class="btn btn-info btn-sm" href='{{ todo_item.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+  
+
+
+<script src="{% static '/js/dashboard_todos.js' %}"></script>
 {% endblock %}

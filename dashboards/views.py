@@ -19,29 +19,47 @@ def dashboard_list_view(request, *args, **kwargs):
 
 
 @login_required
-def dashboard_actions_view(request, *args, **kwargs):   
+def dashboard_actions_view(request, *args, **kwargs): 
     context = {
         "quick_action_task": Task.objects.get(title="Random stuff"),
         "task_batches": [
             {
                 'name':'Overdue',
-                'tasks': dashboard_applogic.get_actions_per_date_range(-900, -1)
+                'tasks': dashboard_applogic.get_staff_actions_per_date_range(-900, -1, "zjef")
             },
             {
                 'name':'Today',
-                'tasks': dashboard_applogic.get_actions_per_date_range(0, 0)
+                'tasks': dashboard_applogic.get_staff_actions_per_date_range(0, 0, "zjef")
             },
             {
                 'name':'Tomorrow',
-                'tasks': dashboard_applogic.get_actions_per_date_range(1, 1)
+                'tasks': dashboard_applogic.get_staff_actions_per_date_range(1, 1, "zjef")
             },
             {
                 'name':'Rest of the week',
-                'tasks': dashboard_applogic.get_actions_per_date_range(2, 7)
+                'tasks': dashboard_applogic.get_staff_actions_per_date_range(2, 7, "zjef")
             },
             {
                 'name':'Rest of the month',
-                'tasks': dashboard_applogic.get_actions_per_date_range(8, 30)
+                'tasks': dashboard_applogic.get_staff_actions_per_date_range(8, 30, "zjef")
+            },
+        ],
+        "staff": [
+            {
+                'name': 'Isabel',
+                'tasks': dashboard_applogic.get_staff_open_tasks("isabel")
+            },
+            {
+                'name': 'Blanka',
+                'tasks': dashboard_applogic.get_staff_open_tasks("blanka")
+            },
+            {
+                'name': 'Fernando',
+                'tasks': dashboard_applogic.get_staff_open_tasks("isabel")
+            },
+            {
+                'name': 'Everyone',
+                'tasks': dashboard_applogic.get_staff_open_tasks("everyone")
             },
         ],
         "user":request.user,
