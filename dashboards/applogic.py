@@ -7,7 +7,7 @@ import datetime
 
 def get_topics_with_projects_and_open_tasks():
     #Getting all topics and related projects
-    all_topics = Topic.objects.all().order_by('title')
+    all_topics = Topic.objects.filter(completed = False).order_by('title')
     topic_list = [
         {'topic': topic, 
         'projects': Project.objects

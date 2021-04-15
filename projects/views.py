@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from projects.models import Project
 from tasks.models import Task
 from projects.forms import ProjectCreationForm
@@ -73,7 +74,8 @@ def project_update_view(request, id):
         form = ProjectCreationForm()
         return redirect("../")
     context = {
-        "form" : form
+        "form" : form,
+        "title": f"Update Project: {obj.title}"
     }
     return render(request, 'project_create.html', context)
 
@@ -109,8 +111,10 @@ def project_create_view(request, topicid=None):
         form = ProjectCreationForm(initial=initial_data)
     if form.is_valid():
         form.save()
-        form = ProjectCreationForm()
+        return redirect('projects:project_update_view', id = form.instance.id)
     context = {
-        "form" : form
+        "form" : form,
+        "title": "Create Project"
+
     }
     return render(request, 'project_create.html', context)

@@ -60,7 +60,8 @@ def task_update_view(request, id):
         form = TaskCreationForm()
         return redirect("../")
     context = {
-        "form" : form
+        "form" : form,
+        "title": f"Update task: {obj.title}"
     }
     return render(request, 'task_create.html', context)
 
@@ -96,9 +97,10 @@ def task_create_view(request, projectid=None):
         form = TaskCreationForm(initial=initial_data)
     if form.is_valid():
         form.save()
-        form = TaskCreationForm()
+        return redirect('tasks:task_update_view', id = form.instance.id)
     context = {
-        "form" : form
+        "form" : form,
+        "title": "Create Task"
     }
     return render(request, 'task_create.html', context)
 
