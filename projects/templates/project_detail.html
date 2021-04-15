@@ -107,6 +107,7 @@
   <div class="col-md-4">
     <div class="d-flex justify-content-end">
       <a class="btn btn-success project_page_button" href="{% url 'tasks:task_create_view_with_project' projectid=project.id%}">New task</a>
+      <a class="btn btn-primary project_page_button" href="{{ project.get_absolute_url }}complete">Complete</a>
       <a class="btn btn-primary project_page_button" href="{{ project.get_absolute_url }}update">Edit</a>
       <a class="btn btn-secondary project_page_button" href="{{ request.META.HTTP_REFERER }}">Back</a>
     </div>

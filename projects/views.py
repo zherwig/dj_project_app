@@ -80,6 +80,17 @@ def project_update_view(request, id):
     return render(request, 'project_create.html', context)
 
 @login_required
+def project_complete_view(request, id):
+    obj = get_object_or_404(Project, id=id)
+    open_tasks = Task.objects.filter(project_id = id).filter(completed = False)
+    if open_tasks:
+        return redirect('projects:project_detail_view', id = obj.id)
+    obj.closed = True
+    obj.completed_at = datetime.datetime.now()
+    obj.save()
+    return redirect(reverse('dashboards:home'))
+    
+@login_required
 def project_delete_view(request, id):
     obj = get_object_or_404(Project, id=id)
     if request.method == 'POST':

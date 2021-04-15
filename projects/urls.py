@@ -11,5 +11,6 @@ urlpatterns = [
     path('create/<int:topicid>/', projects_views.project_create_view, name='project_create_view_with_topic'),
     path('<int:id>/', projects_views.project_detail_view, name='project_detail_view'),
     path('<int:id>/update/', projects_views.project_update_view, name='project_update_view'),
+    path('<int:id>/complete/', projects_views.project_complete_view, name='project_complete_view'),
     path('<int:id>/delete/', projects_views.project_delete_view, name='project_delete_view'),    
 ]
