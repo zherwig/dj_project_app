@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% load crispy_forms_tags %}
 {% crispy ActionCreationForm ActionCreationForm.helper %}
@@ -16,7 +17,7 @@
             <h3>Delete action</h3>
             <a class="btn btn-danger" href="{{ form.instance.get_absolute_url }}delete">Delete</a>
         </div>
-    </div>  
+    </div>
     {% endif %}
-
+    <script src="{% static '/js/action_picker.js' %}"></script>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django import forms
 from .models import Action
+from tasks.models import Task
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Layout, Submit
 from django.shortcuts import reverse
@@ -7,6 +8,7 @@ from django.forms import HiddenInput
 
 class ActionCreationForm(forms.ModelForm):
     previous_url = forms.URLField(required=False)
+    task = forms.ModelChoiceField(queryset=Task.objects.filter(completed=False))
 
     duedate = forms.DateField(
         widget=forms.TextInput(     

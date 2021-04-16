@@ -33,7 +33,11 @@ def action_update_view(request, id):
     initial_data = {
         'previous_url' : request.META.get('HTTP_REFERER'),
     }
-    form = ActionCreationForm(request.POST or None, instance=obj, initial=initial_data)    
+    request_data = None
+    if request.POST:
+        request_data = request.POST.copy()
+        request_data['task'] = str(Task.objects.filter(title=request.POST.get('task')).first().id)
+    form = ActionCreationForm(request_data or None, instance=obj, initial=initial_data)   
     if form.is_valid():
         previous_url = form.cleaned_data['previous_url']
         previous_object = Action.objects.get(id=form.instance.id)
@@ -44,7 +48,6 @@ def action_update_view(request, id):
             form_obj.completed_at = None
         form_obj.updated_at = datetime.datetime.now()
         form_obj.save()
-        form = ActionCreationForm()
         return redirect(previous_url)
     context = {
         "form" : form
@@ -109,7 +112,9 @@ def action_create_view(request, taskid=None, projectid=None, assignee=None):
             assignee = request.user
 
     if request.POST:
-        form = ActionCreationForm(request.POST)
+        request_data = request.POST.copy()
+        request_data['task'] = str(Task.objects.filter(title=request.POST.get('task')).first().id)
+        form = ActionCreationForm(request_data)
     else:
         initial_data = {
             'owner': request.user,
@@ -120,8 +125,8 @@ def action_create_view(request, taskid=None, projectid=None, assignee=None):
         if taskid and projectid:
             initial_data['task'] = taskid 
         form = ActionCreationForm(initial=initial_data)
-        if projectid:
-            form.fields['task'].queryset = Task.objects.filter(project_id=projectid)
+        # if projectid:
+        #     form.fields['task'].queryset = Task.objects.filter(project_id=projectid)
     if form.is_valid():
         previous_ulr = form.cleaned_data['previous_url']
         form.save()
