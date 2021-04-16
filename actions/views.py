@@ -77,7 +77,9 @@ def action_complete_view(request, id):
 @login_required
 def action_complete_and_next_view(request, id):
     if request.POST:
-        form = ActionCreationForm(request.POST)
+        request_data = request.POST.copy()
+        request_data['task'] = str(Task.objects.filter(title=request.POST.get('task')).first().id)
+        form = ActionCreationForm(request_data)
     else:
         obj = get_object_or_404(Action, id=id)
         obj.completed_at = datetime.datetime.now()
