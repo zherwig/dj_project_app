@@ -125,6 +125,14 @@ body {
     background-color: #fcfad2 !important; 
 }
 
+.dashboard_today_task{
+    font-size: 0.7rem; 
+}
+
+.dashboard_today_link{
+    color: black; 
+}
+
 .project_action_table{
     width: 100%;
     background-color: #eeeeee;
@@ -202,3 +210,4 @@ body {
 .task_page_button{
     margin-left: 5px;
 }
+

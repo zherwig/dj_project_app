@@ -72,7 +72,7 @@ def project_update_view(request, id):
         form_obj.updated_at = datetime.datetime.now()
         form_obj.save()
         form = ProjectCreationForm()
-        return redirect("../")
+        return redirect('projects:project_detail_view', id = obj.id)
     context = {
         "form" : form,
         "title": f"Update Project: {obj.title}"
@@ -122,7 +122,7 @@ def project_create_view(request, topicid=None):
         form = ProjectCreationForm(initial=initial_data)
     if form.is_valid():
         form.save()
-        return redirect('projects:project_update_view', id = form.instance.id)
+        return redirect('projects:project_detail_view', id = form.instance.id)
     context = {
         "form" : form,
         "title": "Create Project"

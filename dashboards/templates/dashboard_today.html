@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Today</h1>
+</div>
+<div class="container">
+  <div class="row">
+    {% for action in todays_actions%}
+        <div class="col-md-4 col-xl-3 dashboard-project-card-column">
+            <div class="card dashboardcard mx-auto">
+                <div class="card-body">
+                    <h4><a class="dashboard_today_link" href='{{ action.get_absolute_url }}update'>{{ action.title }}</a></h4>
+                    <p>
+                        <ul class="list-unstyled">
+                            <li>Due: {{action.duedate}}</li>
+                            <li class='dashboard_today_task'>Task: <a class="dashboard_today_link" href='{{action.task.get_absolute_url}}'>{{action.task}}</a></li>
+                        </ul>
+                    </p>
+                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
+                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}push'>Push</a>
+                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}complete'>Done</a>
+                    <a class="btn btn-info btn-sm" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+  
+
+
+{% endblock %}
