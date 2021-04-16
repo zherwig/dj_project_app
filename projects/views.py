@@ -109,14 +109,12 @@ def project_create_view(request, topicid=None):
         initial_data = {
             'owner': request.user,
             'assignee': request.user,
-            'duedate': datetime.datetime.now().date(),
             'topic': topicid
         }
         form = ProjectCreationForm(initial=initial_data)
     else:
         initial_data = {
             'owner': request.user,
-            'duedate': datetime.datetime.now().date(),
             'assignee': request.user,
         }
         form = ProjectCreationForm(initial=initial_data)

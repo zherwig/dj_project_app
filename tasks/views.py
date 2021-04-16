@@ -84,14 +84,12 @@ def task_create_view(request, projectid=None):
         initial_data = {
             'owner': request.user,
             'assignee': request.user,
-            'duedate': datetime.datetime.now().date(),
             'project': projectid
         }
         form = TaskCreationForm(initial=initial_data)
     else:
         initial_data = {
             'owner': request.user,
-            'duedate': datetime.datetime.now().date(),
             'assignee': request.user,
         }
         form = TaskCreationForm(initial=initial_data)

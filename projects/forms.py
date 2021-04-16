@@ -18,6 +18,7 @@ class ProjectCreationForm(forms.ModelForm):
         self.helper.form_id = 'id-exampleForm'
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Submit'))
+        self.fields['duedate'].required = False
     
     class Meta:
             model = Project

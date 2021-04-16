@@ -19,6 +19,7 @@ class TaskCreationForm(forms.ModelForm):
         self.helper.form_id = 'id-exampleForm'
         self.helper.form_method = 'post'
         #self.fields['previous_url'].widget = HiddenInput()
+        self.fields['duedate'].required = False
         self.helper.add_input(Submit('submit', 'Submit'))
     
     class Meta:
