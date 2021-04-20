@@ -148,6 +148,16 @@ def action_highlight_toggle_view(request, id):
     obj.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
+@login_required
+def action_mute_toggle_view(request, id):
+    obj = get_object_or_404(Action, id=id)
+    if obj.muted == True:
+        obj.muted = False
+    else:
+        obj.muted = True
+    obj.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
 
 @login_required
 def action_delay_by_a_day_view(request, id):

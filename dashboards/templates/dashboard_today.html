@@ -6,10 +6,12 @@
   <h1 class="display-4">Today</h1>
 </div>
 <div class="container">
+  <h3 class="display-6">Priorities</h3>
   <div class="row">
     {% for action in todays_actions%}
+      {% if action.highlighted == True %}
         <div class="col-md-4 col-xl-3 dashboard-project-card-column">
-            <div class="card dashboardcard mx-auto">
+            <div class="card dashboardcard mx-auto {% if action.highlighted == True %}dashboard_highlighted_card{% endif %}">
                 <div class="card-body">
                     <h4><a class="dashboard_today_link" href='{{ action.get_absolute_url }}update'>{{ action.title }}</a></h4>
                     <p>
@@ -19,14 +21,70 @@
                         </ul>
                     </p>
                     <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
+                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
                     <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}push'>Push</a>
                     <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}complete'>Done</a>
                     <a class="btn btn-info btn-sm" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
                 </div>
             </div>
         </div>
+      {% endif %}
     {% endfor %}
-  </div>
+    </div>
+    <div class="row">
+      <h3 class="display-6">Actions</h3>
+    </div>
+    <div class="row">
+      {% for action in todays_actions%}
+        {% if action.highlighted != True and action.muted != True  %}
+          <div class="col-md-4 col-xl-3 dashboard-project-card-column">
+              <div class="card dashboardcard mx-auto">
+                  <div class="card-body">
+                      <h4><a class="dashboard_today_link" href='{{ action.get_absolute_url }}update'>{{ action.title }}</a></h4>
+                      <p>
+                          <ul class="list-unstyled">
+                              <li>Due: {{action.duedate}}</li>
+                              <li class='dashboard_today_task'>Task: <a class="dashboard_today_link" href='{{action.task.get_absolute_url}}'>{{action.task}}</a></li>
+                          </ul>
+                      </p>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}push'>Push</a>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}complete'>Done</a>
+                      <a class="btn btn-info btn-sm" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                  </div>
+              </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="row">
+      <h3 class="display-6">Muted</h3>
+    </div>
+    <div class="row">
+      {% for action in todays_actions%}
+        {% if action.muted == True %}
+          <div class="col-md-4 col-xl-3 dashboard-project-card-column">
+              <div class="card dashboardcard mx-auto {% if action.muted == True %}dashboard_muted_card{% endif %}">
+                  <div class="card-body">
+                      <h4><a class="dashboard_today_link" href='{{ action.get_absolute_url }}update'>{{ action.title }}</a></h4>
+                      <p>
+                          <ul class="list-unstyled">
+                              <li>Due: {{action.duedate}}</li>
+                              <li class='dashboard_today_task'>Task: <a class="dashboard_today_link" href='{{action.task.get_absolute_url}}'>{{action.task}}</a></li>
+                          </ul>
+                      </p>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}push'>Push</a>
+                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}complete'>Done</a>
+                      <a class="btn btn-info btn-sm" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                  </div>
+              </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
 </div>
 
 

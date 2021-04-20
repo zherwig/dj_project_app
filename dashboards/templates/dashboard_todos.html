@@ -24,7 +24,10 @@
             <ul class="todo_page_actions_list">
                 {% for todo_item in batch.tasks%}
                 <li>
-                    <div class="todo_page_item {% if todo_item.highlighted == True %}dashboard_highlighted_card{% endif %}">
+                    <div class="todo_page_item 
+                                {% if todo_item.highlighted == True %}dashboard_highlighted_card{% endif %}
+                                {% if todo_item.muted == True %}dashboard_muted_card{% endif %}
+                            ">
                         <div class="row todo_page_item_row">
                             <div class="col-4 todo_page_item_duedate">{{ todo_item.duedate }}</div>
                             <div class="col-4"></div>
@@ -32,7 +35,7 @@
                         </div>
                         <div class="row todo_page_item_row">
                             <div class="col-12 todo_page_item_title">
-                                <h4><a href='{{ todo_item.get_absolute_url }}update'>{{ todo_item.title }}</a></h4>
+                                <h4><a class="{% if todo_item.muted == True %}dashboard_muted_todo_link{% endif %}" href='{{ todo_item.get_absolute_url }}update'>{{ todo_item.title }}</a></h4>
                             </div>
                         </div>
                         <div class="row todo_page_item_row">
@@ -48,6 +51,7 @@
                             </div>
                             <div class="col-12 col-lg-6 text-right todo_page_item_buttons">
                                 <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}togglehighlight'>Highlight</a>
+                                <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}togglemute'>Mute</a>
                                 <a class="btn btn-outline-info btn-sm" href='/notes/create/action/{{todo_item.id}}'>Note</a>
                                 <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}push'>Push</a>
                                 <a class="btn btn-outline-info btn-sm" href='{{ todo_item.get_absolute_url }}complete'>Done</a>

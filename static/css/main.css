@@ -125,6 +125,31 @@ body {
     background-color: #fcfad2 !important; 
 }
 
+.dashboard_muted_card {
+    background-color: #eeeeee !important;
+    color: #8a8a8a;
+}
+
+.dashboard_muted_card .dashboard_today_link {
+    color: #8a8a8a;
+}
+
+.dashboard_muted_todo_link {
+    color: #8a8a8a;
+}
+
+.dashboard_muted_card .btn-info {
+    background-color: #8a8a8a;
+    border-color: #8a8a8a;
+    color: white;
+}
+
+.dashboard_muted_card .btn-outline-info {
+    background-color: #eeeeee;
+    border-color: #8a8a8a;
+    color: #8a8a8a;
+}
+
 .dashboard_today_task{
     font-size: 0.7rem; 
 }

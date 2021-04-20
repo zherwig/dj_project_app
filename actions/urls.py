@@ -16,6 +16,7 @@ urlpatterns = [
     path('<int:id>/complete/', action_views.action_complete_view, name='action_complete_view'),
     path('<int:id>/completeandnext/', action_views.action_complete_and_next_view, name='action_complete_and_next_view'),
     path('<int:id>/togglehighlight/', action_views.action_highlight_toggle_view, name='action_highlight_toggle_view'),
+    path('<int:id>/togglemute/', action_views.action_mute_toggle_view, name='action_mute_toggle_view'),
     path('<int:id>/push/', action_views.action_delay_by_a_day_view, name='action_delay_by_a_day_view'),
         
 ]
