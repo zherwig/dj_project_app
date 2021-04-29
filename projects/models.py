@@ -10,6 +10,7 @@ class Project(models.Model):
     topic = models.ForeignKey (Topic, related_name="related_topic", on_delete=models.CASCADE, null=True, blank=True)
     closed = models.BooleanField(default=False)
     onHold = models.BooleanField(default=False)
+    excludeFromReports = models.BooleanField(default=False)
     priority = models.IntegerField(blank=True, null=True)
     placeInOrder = models.IntegerField(blank=True, null=True)
     duedate = models.DateField(blank=True, null=True)

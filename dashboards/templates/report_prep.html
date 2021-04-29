@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Report</h1>
+</div>
+<div class="container w-75 mx-auto">
+    <div class="row justify-content-end">
+        <a class="btn btn-outline-dark float-right" href="/docx">Generate Report</a>
+    </div>
+    {% for topic in topics %}
+    <div class="row topic_row">
+      <div class="container">
+        <h2>{{topic.topic.title}}</h2>
+          <div class="row dashboard_row">
+            <ul class="list-group w-100">
+            {% for project in topic.projects%}
+                {% if project.excludeFromReports == False %}
+                <li class="list-group-item list-group-item-info">
+                    <div class="d-flex justify-content-between align-items-center">
+                        {{project.title}}
+                        <a class="btn btn-sm btn-primary" href="{{ project.get_absolute_url }}update">Update</a>
+                    </div>
+                    <ul class="list-group mt-2">
+                    {% for task in project.tasks%}
+                        {% if task.excludeFromReports == False %}
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="font-weight-bold">
+                                        {{task.title}}
+                                    </span>
+                                    <a class="btn btn-outline-primary dashboard_card_task_small_text btn-sm float-right" href='{{ task.get_absolute_url }}update'>Update</a>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <small class="font-weight-bold">Due Date: {{task.duedate}}</small>
+                                    <small class="font-weight-bold">Description: {{task.detail}}</small>
+                                    <small class="font-weight-bold">Progress: {{task.taskProgress}}</small>
+                                </div>
+                            </li>
+                        {% else %}
+                        <li class="list-group-item list-group-item-info">
+                            <div class="d-flex justify-content-between align-items-center text-muted">
+                                {{task.title}} (Excluded)
+                                <a class="btn btn-outline-info dashboard_card_task_small_text btn-sm float-right" href='{{ task.get_absolute_url }}update'>Update</a>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <small class="text-muted">Due Date: {{task.duedate}}</small>
+                                <small class="text-muted">Description: {{task.detail}}</small>
+                                <small class="text-muted">Progress: {{task.taskProgress}}</small>
+                            </div>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </li>
+                {% endif %}
+                {% if project.excludeFromReports == True %}
+                <li class="list-group-item list-group-item-info">
+                    <div class="d-flex justify-content-between align-items-center ">
+                        <span class="text-muted">{{project.title}} (excluded) </span>
+                        <a class="btn btn-sm btn-light" href="{{ project.get_absolute_url }}update">Update</a>
+                    </div>
+                    <ul class="list-group mt-2">
+                    {% for task in project.tasks%}
+                        <li class="list-group-item list-group-item-info">
+                            <div class="d-flex justify-content-between align-items-center">
+                                {{task.title}}
+                                <a class="btn btn-light dashboard_card_task_small_text btn-sm float-right" href='{{ task.get_absolute_url }}update'>Update</a>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <small class="text-muted">Due Date: {{task.duedate}}</small>
+                                <small class="text-muted">Description: {{task.detail}}</small>
+                                <small class="text-muted">Progress: {{task.taskProgress}}</small>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                {% else %}
+                {% endif %}       
+            {% endfor %}
+            </ul>
+          </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
