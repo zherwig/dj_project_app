@@ -9,6 +9,29 @@
     <div class="row justify-content-end">
         <a class="btn btn-outline-dark float-right" href="/docx">Generate Report</a>
     </div>
+    <div class="row topic_row">
+        <div class="container">
+            <h2>Completed Project</h2>
+            <div class="row dashboard_row">
+                <ul class="list-group w-100">
+                    {% for completed_task in completed%}
+                    <li class="list-group-item list-group-item-success">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="font-weight-bold">
+                                {{completed_task.title}}
+                            </span>
+                            <a class="btn btn-outline-success dashboard_card_task_small_text btn-sm float-right" href='{{ completed_task.get_absolute_url }}update'>Update</a>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <small><span class="font-weight-bold">Project:</span> {{completed_task.project}}</small>
+                            <small<span class="font-weight-bold">Description:</span> {{completed_task.detail}}</small>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
     {% for topic in topics %}
     <div class="row topic_row">
       <div class="container">
@@ -25,12 +48,15 @@
                     <ul class="list-group mt-2">
                     {% for task in project.tasks%}
                         {% if task.excludeFromReports == False %}
-                            <li class="list-group-item">
+                            <li class="list-group-item {% if task.due == True %} list-group-item-warning {% endif %}">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="font-weight-bold">
                                         {{task.title}}
                                     </span>
-                                    <a class="btn btn-outline-primary dashboard_card_task_small_text btn-sm float-right" href='{{ task.get_absolute_url }}update'>Update</a>
+                                    <div>
+                                        <a class="btn btn-outline-primary dashboard_card_task_small_text btn-sm" href='{{ task.get_absolute_url }}updateprogress'>Progress</a>
+                                        <a class="btn btn-outline-primary dashboard_card_task_small_text btn-sm" href='{{ task.get_absolute_url }}'>Detail</a>
+                                    </div>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <small class="font-weight-bold">Due Date: {{task.duedate}}</small>
@@ -42,7 +68,10 @@
                         <li class="list-group-item list-group-item-info">
                             <div class="d-flex justify-content-between align-items-center text-muted">
                                 {{task.title}} (Excluded)
-                                <a class="btn btn-outline-info dashboard_card_task_small_text btn-sm float-right" href='{{ task.get_absolute_url }}update'>Update</a>
+                                <div>
+                                    <a class="btn btn-outline-info dashboard_card_task_small_text btn-sm" href='{{ task.get_absolute_url }}updateprogress'>Progress</a>
+                                    <a class="btn btn-outline-info dashboard_card_task_small_text btn-sm" href='{{ task.get_absolute_url }}'>Detail</a>
+                                </div>
                             </div>
                             <div class="d-flex flex-column">
                                 <small class="text-muted">Due Date: {{task.duedate}}</small>
@@ -59,14 +88,17 @@
                 <li class="list-group-item list-group-item-info">
                     <div class="d-flex justify-content-between align-items-center ">
                         <span class="text-muted">{{project.title}} (excluded) </span>
-                        <a class="btn btn-sm btn-light" href="{{ project.get_absolute_url }}update">Update</a>
+                        <a class="btn btn-sm btn-light" href="{{ project.get_absolute_url }}">Detail</a>
                     </div>
                     <ul class="list-group mt-2">
                     {% for task in project.tasks%}
                         <li class="list-group-item list-group-item-info">
                             <div class="d-flex justify-content-between align-items-center">
                                 {{task.title}}
-                                <a class="btn btn-light dashboard_card_task_small_text btn-sm float-right" href='{{ task.get_absolute_url }}update'>Update</a>
+                                <div>
+                                    <a class="btn btn-light dashboard_card_task_small_text btn-sm" href='{{ task.get_absolute_url }}updateprogress'>Progress</a>
+                                    <a class="btn btn-light dashboard_card_task_small_text btn-sm" href='{{ task.get_absolute_url }}'>Detail</a>
+                                </div>
                             </div>
                             <div class="d-flex flex-column">
                                 <small class="text-muted">Due Date: {{task.duedate}}</small>

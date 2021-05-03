@@ -76,6 +76,7 @@ def dashboard_actions_fix_overdues(request, *args, **kwargs):
 @login_required
 def dashboard_today_view(request, *args, **kwargs):
     context = {
+        "quick_action_task": Task.objects.get(title="Random stuff"),
         "todays_actions": dashboard_applogic.get_staff_actions_per_date_range(0, 0, "zjef"),
         "user":request.user,
     }
@@ -83,21 +84,47 @@ def dashboard_today_view(request, *args, **kwargs):
 
 @login_required
 def docx_report(request, *args, **kwargs):
+    all_topics = dashboard_applogic.get_topics_with_projects_and_open_tasks()
+    all_topics.reverse()
+    completed_topics = dashboard_applogic.get_completed_tasks()
     context = {
-        "topics": dashboard_applogic.get_topics_with_projects_and_open_tasks(),
-        "user":request.user,
+        "completed": completed_topics,
+        "topics": all_topics,
+        "user":request.user
     }
     
     return render(request, 'report_prep.html', context)
 
 @login_required
 def download_docx(request, *args, **kwargs):
+    completed_topics = dashboard_applogic.get_completed_tasks()
+    all_topics = dashboard_applogic.get_topics_with_projects_and_open_tasks()
+    all_topics.reverse()
     # create an empty document object
     document = Document()
-    document.add_heading('Zjefs report', 0)
-    all_topics = dashboard_applogic.get_topics_with_projects_and_open_tasks()
+    
+    #contents
+    document.add_heading('Weekly project progress report', 0)
+    document.add_heading('Completed items this week', level=1)
+    for completed_topic in completed_topics:
+        completed_topic_p = document.add_paragraph(
+                            '', style='List Bullet'
+                        )
+        description_header = completed_topic_p.add_run(f'{completed_topic.title}')
+        description_header.bold = True
+        task_run = completed_topic_p.add_run()
+        task_run.add_break()
+        description_header = completed_topic_p.add_run("Description: ")
+        description_header.italic = True
+        completed_topic_p.add_run(f"{completed_topic.detail}")
+        task_run = completed_topic_p.add_run()
+        task_run.add_break()
+        progress_header = completed_topic_p.add_run("Project: ")
+        progress_header.italic = True
+        completed_topic_p.add_run(f"{completed_topic.project.title}")
+    document.add_heading('Open items', level=1)
     for topic in all_topics:
-        document.add_heading(f"{topic['topic']}", level=1)
+        document.add_heading(f"{topic['topic']}", level=3)
         for project in topic['projects']:
             if project.excludeFromReports == False:
                 document.add_paragraph(
@@ -111,13 +138,19 @@ def download_docx(request, *args, **kwargs):
                         task_p.add_run(f'{task.title}').bold = True
                         task_run = task_p.add_run()
                         task_run.add_break()
-                        task_p.add_run(f"Description: {task.detail}")
+                        description_header = task_p.add_run("Description: ")
+                        description_header.italic = True
+                        task_p.add_run(f"{task.detail}")
                         task_run = task_p.add_run()
                         task_run.add_break()
-                        task_p.add_run(f"Progress: {task.taskProgress}")
+                        progress_header = task_p.add_run("Progress: ")
+                        progress_header.italic = True
+                        task_p.add_run(f"{task.taskProgress}")
                         task_run = task_p.add_run()
                         task_run.add_break()
-                        task_p.add_run(f"Due Date: {task.duedate}")
+                        duedate_header = task_p.add_run("Due Date:")
+                        duedate_header.italic = True
+                        task_p.add_run(f"{task.duedate}")
                 
     # save document info
     buffer = io.BytesIO()
@@ -131,7 +164,7 @@ def download_docx(request, *args, **kwargs):
         content_type='application/vnd.openxmlformats-officedocument.wordprocessingm'
     )
 
-    response['Content-Disposition'] = 'attachment;filename=Test.docx'
+    response['Content-Disposition'] = 'attachment;filename=Weekly_Report.docx'
     response["Content-Encoding"] = 'UTF-8'
 
     return response

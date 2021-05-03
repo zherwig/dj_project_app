@@ -14,6 +14,7 @@
     <a class="btn btn-success task_page_button" href="{% url 'actions:action_create_view' projectid=task.project.id taskid=task.id%}">New Action</a>
     <a class="btn btn-info task_page_button" href="{{ task.get_absolute_url }}complete">Complete</a>
     <a class="btn btn-info task_page_button" href="{{ task.get_absolute_url }}update">Edit</a>
+    <a class="btn btn-info task_page_button" href="{{task.get_absolute_url }}updateprogress">Progress</a>
     <a class="btn btn-info task_page_button" href="{{ request.META.HTTP_REFERER }}">Back</a>
   </div>
 </div>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% crispy TaskProgressUpdateForm TaskProgressUpdateForm.helper %}
+
+{% block content %}
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-8">
+            <h1 class="display-4">{{ title }}</h1>
+            {% crispy form %}
+        </div>
+    </div>
+{% endblock %}

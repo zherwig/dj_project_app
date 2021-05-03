@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from tasks.models import Task
 from actions.models import Action
-from tasks.forms import TaskCreationForm
+from tasks.forms import TaskCreationForm, TaskProgressUpdateForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -64,6 +64,27 @@ def task_update_view(request, id):
         "title": f"Update task: {obj.title}"
     }
     return render(request, 'task_create.html', context)
+
+def task_update_progress_view(request, id):
+    obj = get_object_or_404(Task, id=id)
+    if request.POST:
+        form = TaskProgressUpdateForm(request.POST, instance=obj)
+    else:
+        initial_data = {
+            'taskProgress': obj.taskProgress,
+            'detail': obj.detail,
+            'previous_url': request.META.get('HTTP_REFERER'),
+        }
+        form = TaskProgressUpdateForm(initial=initial_data)
+    if form.is_valid():
+        previous_url = form.cleaned_data['previous_url']
+        form.save()
+        return redirect(previous_url)
+    context = {
+        "form" : form,
+        "title": f"Update progress on {obj.title}"
+    }
+    return render(request, 'task_updateprogress.html', context)
 
 @login_required
 def task_delete_view(request, id):

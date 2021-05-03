@@ -25,3 +25,17 @@ class TaskCreationForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
+
+class TaskProgressUpdateForm(forms.ModelForm):
+    previous_url = forms.URLField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        #self.fields['previous_url'].widget = forms.HiddenInput()
+        self.helper.add_input(Submit('submit', 'Submit'))
+    
+    class Meta:
+        model = Task
+        fields = ['taskProgress', 'detail', 'previous_url']

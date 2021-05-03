@@ -58,8 +58,9 @@ def action_update_view(request, id):
 def action_delete_view(request, id):
     obj = get_object_or_404(Action, id=id)
     if request.method == 'POST':
+        previous_url = obj.task.get_absolute_url()
         obj.delete()
-        return redirect("../../")
+        return redirect(previous_url)
     context = {
         "action": obj,
     }

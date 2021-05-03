@@ -4,6 +4,7 @@ from tasks.models import Task
 from actions.models import Action
 from django.contrib.auth.models import User
 import datetime
+from django.utils import timezone
 
 def get_topics_with_projects_and_open_tasks():
     #Getting all topics and related projects
@@ -16,19 +17,25 @@ def get_topics_with_projects_and_open_tasks():
                             .order_by('title')
         } 
         for topic in all_topics]
-
-    #determining latest due date for use in GUi and sorting
+    
     for element in topic_list:
-    #     try:
-    #         element['top_due_date'] = element['projects'][0].duedate
-    #     except IndexError:
-    #         element['top_due_date'] = datetime.date.today()
-    #     #adding related tasks 
         for element_project in element['projects']:
             element_project.tasks = Task.objects.filter(project = element_project.id, completed = False).order_by('duedate')
-    
-    # topic_list.sort(key=lambda x: int(x['top_due_date'].strftime('%Y%m%d')))
+            for task in element_project.tasks:
+                if task.duedate <  datetime.date.today() + datetime.timedelta(days=7):
+                    task.due = True
+                else:
+                    task.due = False
+        
     return topic_list
+
+def get_completed_tasks():
+    all_tasks = Task.objects.filter(
+                completed = True,
+                completed_at__gte = datetime.datetime.now(tz=timezone.utc) - datetime.timedelta(days=7)
+            ).order_by('duedate')
+    return [task for task in all_tasks if task.project.excludeFromReports == False and task.excludeFromReports == False]
+
 
 def get_actions_per_date_range(start_day_number, end_day_number):
     start_range = datetime.date.today() + datetime.timedelta(days=start_day_number)
