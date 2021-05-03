@@ -22,8 +22,9 @@ def get_topics_with_projects_and_open_tasks():
         for element_project in element['projects']:
             element_project.tasks = Task.objects.filter(project = element_project.id, completed = False).order_by('duedate')
             for task in element_project.tasks:
-                if task.duedate <  datetime.date.today() + datetime.timedelta(days=7):
-                    task.due = True
+                if task.duedate:
+                    if task.duedate <  datetime.date.today() + datetime.timedelta(days=7):
+                        task.due = True
                 else:
                     task.due = False
         
