@@ -24,9 +24,11 @@ def get_topics_with_projects_and_open_tasks():
             for task in element_project.tasks:
                 if task.duedate:
                     task.due = True if task.duedate <  datetime.date.today() + datetime.timedelta(days=7) else False
+                    task.overdue = True if task.duedate <  datetime.date.today() else False
                 else:
                     task.due = False
-        
+                    task.overdue = False
+                
     return topic_list
 
 def get_completed_tasks():
