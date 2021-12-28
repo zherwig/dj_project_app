@@ -12,5 +12,6 @@ urlpatterns = [
     path('<int:id>/update/', task_views.task_update_view, name='task_update_view'),
     path('<int:id>/updateprogress/', task_views.task_update_progress_view, name='task_update_progress_view'),
     path('<int:id>/delete/', task_views.task_delete_view, name='task_delete_view'),
-    path('<int:id>/complete/', task_views.task_complete_view, name='task_complete_view'),    
+    path('<int:id>/complete/', task_views.task_complete_view, name='task_complete_view'),
+    path('<int:id>/push_actions_by_week/', task_views.push_task_actions_by_week, name='push_task_actions_by_week'),        
 ]

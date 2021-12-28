@@ -50,24 +50,22 @@ def get_staff_actions_per_date_range(start_day_number, end_day_number, staff_mem
     end_range = datetime.date.today() + datetime.timedelta(days=end_day_number)
     return Action.objects.filter(duedate__range=[start_range, end_range], completed=False, assignee=staff_member_id)
 
-def get_staff_open_tasks(staff_member):
-    return [
-        {
-            'name': "Overdue",
-            'tasks': get_staff_actions_per_date_range(-900, -1, staff_member)
-        },
-        {
-            'name': "Today",
-            'tasks': get_staff_actions_per_date_range(0, 0, staff_member)
-        },
-        {
-            'name': "Future",
-            'tasks': get_staff_actions_per_date_range(1, 1000, staff_member)
-        },
-    ]
-
 def move_action_to_today(action_id):
     action_to_update = Action.objects.filter(id = action_id)[0]
     if action_to_update:
         action_to_update.duedate = datetime.date.today()
         action_to_update.save()
+
+def move_action_to_tomorrow(action_id):
+    try:
+        action_to_update = Action.objects.filter(id = action_id)[0]
+        if action_to_update.duedate.isoweekday() == 4:
+            action_to_update.duedate += datetime.timedelta(days=3)
+        elif action_to_update.duedate.isoweekday() == 5:
+            action_to_update.duedate += datetime.timedelta(days=2)
+        else:
+            action_to_update.duedate += datetime.timedelta(days=1)
+        action_to_update.save()
+        return True
+    except Exception as e:
+        return e

@@ -65,6 +65,7 @@ def task_update_view(request, id):
     }
     return render(request, 'task_create.html', context)
 
+@login_required
 def task_update_progress_view(request, id):
     obj = get_object_or_404(Task, id=id)
     if request.POST:
@@ -135,3 +136,14 @@ def task_complete_view(request, id):
     obj.completed = True
     obj.save()
     return redirect(reverse('dashboards:home'))
+
+@login_required
+def push_task_actions_by_week(request, id):
+    obj = get_object_or_404(Task, id=id)
+    open_actions = Action.objects.filter(task_id=obj.id).filter(completed=False)
+    for open_action in open_actions:
+        open_action.duedate = (
+            open_action.duedate - datetime.timedelta(days=open_action.duedate.weekday())
+            ) + datetime.timedelta(days = 6)
+        open_action.save()
+    return redirect('tasks:task_detail_view', id=obj.id)

@@ -49,19 +49,6 @@ def dashboard_actions_view(request, *args, **kwargs):
                 'tasks': dashboard_applogic.get_staff_actions_per_date_range(8, 30, "zjef")
             },
         ],
-        "staff": [
-            {
-                'name': 'Isabel',
-                'tasks': dashboard_applogic.get_staff_open_tasks("isabel"),
-                'task_for_button': Task.objects.get(title="Follow-ups with Isabel"),
-
-            },
-            {
-                'name': 'Blanka',
-                'tasks': dashboard_applogic.get_staff_open_tasks("blanka"),
-                'task_for_button': Task.objects.get(title="Follow-ups with Blanka"),
-            },
-        ],
         "user":request.user,
     }
     return render(request, 'dashboard_todos.html', context) 
@@ -72,6 +59,14 @@ def dashboard_actions_fix_overdues(request, *args, **kwargs):
     for overdue_action in overdue_actions:
         dashboard_applogic.move_action_to_today(overdue_action.id)
     return redirect("/todos")
+
+def dashboard_today_actions_push_all(request, *args, **kwargs):
+    today_actions = dashboard_applogic.get_staff_actions_per_date_range(0, 0, "zjef")
+    for today_action in today_actions:
+        action_result = dashboard_applogic.move_action_to_tomorrow(today_action.id)
+        if not action_result:
+            return HttpResponse(f'Exception: {action_result}')
+    return redirect("/today")
 
 @login_required
 def dashboard_today_view(request, *args, **kwargs):

@@ -7,7 +7,9 @@
 </div>
 <div class="container">
   <div class="row justify-content-end">
-    <a class="btn btn-outline-dark float-right" href="/actions/create/{{ quick_action_task.project.id }}/{{ quick_action_task.id }}">New Random task</a>
+    <a class="btn btn-outline-dark float-right ml-1" href="{% url 'dashboards:todaypushall' %}">Move To Tomorrow</a>
+    <a class="btn btn-outline-dark float-right ml-1" href="{% url 'dashboards:fixoverdues' %}">Pull Overdue Tasks</a>
+    <a class="btn btn-outline-dark float-right ml-1" href="/actions/create/{{ quick_action_task.project.id }}/{{ quick_action_task.id }}">New Random task</a>
   </div>
   <h3 class="display-6">Priorities</h3>
   <div class="row">
@@ -16,6 +18,12 @@
         <div class="col-md-4 col-xl-3 dashboard-project-card-column">
             <div class="card dashboardcard mx-auto {% if action.highlighted == True %}dashboard_highlighted_card{% endif %}">
                 <div class="card-body">
+                  <div class="d-flex pb-1 justify-content-end small">
+                    <span>Push: </span>
+                    <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}pushmonth'> +M</a>
+                    <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}pushweek'>+W</a>
+                    <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}push'>+D</a>
+                  </div>
                     <h4><a class="dashboard_today_link" href='{{ action.get_absolute_url }}update'>{{ action.title }}</a></h4>
                     <p>
                         <ul class="list-unstyled">
@@ -23,11 +31,15 @@
                             <li class='dashboard_today_task'>Task: <a class="dashboard_today_link" href='{{action.task.get_absolute_url}}'>{{action.task}}</a></li>
                         </ul>
                     </p>
-                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
-                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
-                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}push'>Push</a>
-                    <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}complete'>Done</a>
-                    <a class="btn btn-info btn-sm" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
+                        <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
+                        <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}complete'>Done</a>
+                      </div>
+                      <a class="btn btn-info btn-sm ml-1" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -43,6 +55,12 @@
           <div class="col-md-4 col-xl-3 dashboard-project-card-column">
               <div class="card dashboardcard mx-auto">
                   <div class="card-body">
+                    <div class="d-flex pb-1 justify-content-end small">
+                      <span>Push: </span>
+                      <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}pushmonth'> +M</a>
+                      <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}pushweek'>+W</a>
+                      <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}push'>+D</a>
+                    </div>
                       <h4><a class="dashboard_today_link" href='{{ action.get_absolute_url }}update'>{{ action.title }}</a></h4>
                       <p>
                           <ul class="list-unstyled">
@@ -50,11 +68,14 @@
                               <li class='dashboard_today_task'>Task: <a class="dashboard_today_link" href='{{action.task.get_absolute_url}}'>{{action.task}}</a></li>
                           </ul>
                       </p>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}push'>Push</a>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}complete'>Done</a>
-                      <a class="btn btn-info btn-sm" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
+                          <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
+                          <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}complete'>Done</a>
+                        </div>
+                        <a class="btn btn-info btn-sm ml-1" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                      </div>
                   </div>
               </div>
           </div>
@@ -70,6 +91,12 @@
           <div class="col-md-4 col-xl-3 dashboard-project-card-column">
               <div class="card dashboardcard mx-auto {% if action.muted == True %}dashboard_muted_card{% endif %}">
                   <div class="card-body">
+                      <div class="d-flex pb-1 justify-content-end small">
+                        <span>Push: </span>
+                        <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}pushmonth'> +M</a>
+                        <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}pushweek'>+W</a>
+                        <a class="btn btn-outline-info btn-sm ml-1 pl-1 pr-1 pt-0 pb-0" href='{{ action.get_absolute_url }}push'>+D</a>
+                      </div>
                       <h4><a class="dashboard_today_link" href='{{ action.get_absolute_url }}update'>{{ action.title }}</a></h4>
                       <p>
                           <ul class="list-unstyled">
@@ -77,11 +104,14 @@
                               <li class='dashboard_today_task'>Task: <a class="dashboard_today_link" href='{{action.task.get_absolute_url}}'>{{action.task}}</a></li>
                           </ul>
                       </p>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}push'>Push</a>
-                      <a class="btn btn-outline-info btn-sm" href='{{ action.get_absolute_url }}complete'>Done</a>
-                      <a class="btn btn-info btn-sm" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}togglehighlight'>Highlight</a>
+                          <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}togglemute'>Mute</a>
+                          <a class="btn btn-outline-info btn-sm ml-1" href='{{ action.get_absolute_url }}complete'>Done</a>
+                        </div>
+                        <a class="btn btn-info btn-sm ml-1" href='{{ action.get_absolute_url }}completeandnext'>Done &amp; New</a>
+                      </div>
                   </div>
               </div>
           </div>

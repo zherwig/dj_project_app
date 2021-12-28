@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from actions.models import Action
+from dashboards import applogic
 from tasks.models import Task
 from actions.forms import ActionCreationForm
 from django.contrib.auth.models import User
@@ -161,8 +162,24 @@ def action_mute_toggle_view(request, id):
 
 
 @login_required
-def action_delay_by_a_day_view(request, id):
+def action_delay_to_next_week(request, id):
     obj = get_object_or_404(Action, id=id)
-    obj.duedate += datetime.timedelta(days=1)
+    obj.duedate = (obj.duedate - datetime.timedelta(days=obj.duedate.weekday())) + datetime.timedelta(days = 6)
     obj.save()
     return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+def action_delay_to_next_month(request, id):
+    obj = get_object_or_404(Action, id=id)
+    obj.duedate = (obj.duedate.replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
+    obj.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+def action_delay_by_a_day_view(request, id):
+    obj = get_object_or_404(Action, id=id)
+    action_result = applogic.move_action_to_tomorrow(obj.id)
+    if action_result:
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        return HttpResponse(f'Exception: {action_result}')
