@@ -69,3 +69,12 @@ def move_action_to_tomorrow(action_id):
         return True
     except Exception as e:
         return e
+
+def unmute_action(action_id):
+    try:
+        action_to_update = Action.objects.filter(id = action_id)[0]
+        action_to_update.muted = False
+        action_to_update.save()
+        return True
+    except Exception as e:
+        return e

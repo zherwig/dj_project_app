@@ -12,5 +12,7 @@ urlpatterns = [
     path('docx', dashboard_views.download_docx, name='docx'),
     path('fixoverdues', dashboard_views.dashboard_actions_fix_overdues, name='fixoverdues'),
     path('todaypushall', dashboard_views.dashboard_today_actions_push_all, name='todaypushall'),
+    path('todayunmuteall', dashboard_views.dashboard_today_actions_unmute_all, name='todayunmuteall'),
+    
     
 ]

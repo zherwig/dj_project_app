@@ -142,8 +142,11 @@ def push_task_actions_by_week(request, id):
     obj = get_object_or_404(Task, id=id)
     open_actions = Action.objects.filter(task_id=obj.id).filter(completed=False)
     for open_action in open_actions:
-        open_action.duedate = (
-            open_action.duedate - datetime.timedelta(days=open_action.duedate.weekday())
-            ) + datetime.timedelta(days = 6)
+        if open_action.duedate.weekday() == 6:
+            open_action.duedate + datetime.timedelta(days = 7)
+        else:
+            open_action.duedate = (
+                open_action.duedate - datetime.timedelta(days=open_action.duedate.weekday())
+                ) + datetime.timedelta(days = 6)
         open_action.save()
     return redirect('tasks:task_detail_view', id=obj.id)

@@ -164,7 +164,10 @@ def action_mute_toggle_view(request, id):
 @login_required
 def action_delay_to_next_week(request, id):
     obj = get_object_or_404(Action, id=id)
-    obj.duedate = (obj.duedate - datetime.timedelta(days=obj.duedate.weekday())) + datetime.timedelta(days = 6)
+    if obj.duedate.weekday() == 6:
+        obj.duedate = obj.duedate + datetime.timedelta(days = 7)
+    else:
+        obj.duedate = (obj.duedate - datetime.timedelta(days=obj.duedate.weekday())) + datetime.timedelta(days = 6)
     obj.save()
     return redirect(request.META.get('HTTP_REFERER'))
 

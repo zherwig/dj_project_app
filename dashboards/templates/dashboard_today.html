@@ -82,8 +82,9 @@
         {% endif %}
       {% endfor %}
     </div>
-    <div class="row">
+    <div class="row mb-2 justify-content-between">
       <h3 class="display-6">Muted</h3>
+      <a class="btn btn-outline-dark ml-1" href="{% url 'dashboards:todayunmuteall' %}">Unmute All</a>
     </div>
     <div class="row">
       {% for action in todays_actions%}

@@ -58,12 +58,20 @@ def dashboard_actions_fix_overdues(request, *args, **kwargs):
     overdue_actions = dashboard_applogic.get_actions_per_date_range(-900, -1)
     for overdue_action in overdue_actions:
         dashboard_applogic.move_action_to_today(overdue_action.id)
-    return redirect("/todos")
+    return redirect("/today")
 
 def dashboard_today_actions_push_all(request, *args, **kwargs):
     today_actions = dashboard_applogic.get_staff_actions_per_date_range(0, 0, "zjef")
     for today_action in today_actions:
         action_result = dashboard_applogic.move_action_to_tomorrow(today_action.id)
+        if not action_result:
+            return HttpResponse(f'Exception: {action_result}')
+    return redirect("/today")
+
+def dashboard_today_actions_unmute_all(request, *args, **kwargs):
+    today_actions = dashboard_applogic.get_staff_actions_per_date_range(0, 0, "zjef")
+    for today_action in today_actions:
+        action_result = dashboard_applogic.unmute_action(today_action.id)
         if not action_result:
             return HttpResponse(f'Exception: {action_result}')
     return redirect("/today")
